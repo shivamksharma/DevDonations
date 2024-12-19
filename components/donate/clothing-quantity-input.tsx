@@ -40,12 +40,10 @@ export function ClothingQuantityInput({
 
   return (
     <motion.div 
-      className="flex items-center justify-between p-4 bg-card rounded-lg"
-      whileHover={{ scale: 1.01 }}
-      animate={{ borderColor: isFocused ? "hsl(var(--primary))" : "hsl(var(--border))" }}
       className={`flex items-center justify-between p-4 bg-card rounded-lg border ${
         isFocused ? "border-primary" : "border-border"
       }`}
+      whileHover={{ scale: 1.01 }}
     >
       <label htmlFor={id} className="text-sm font-medium flex-1">
         {label}
