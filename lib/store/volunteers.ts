@@ -31,7 +31,7 @@ export const useVolunteerStore = create<VolunteerStore>()(
           console.error("Error fetching volunteers:", error);
           return;
         }
-        set({ volunteers });
+        set({ volunteers: volunteers as Volunteer[] });
       },
       updateVolunteerStatus: async (id, status) => {
         await updateVolunteerStatusFirebase(id, status);
