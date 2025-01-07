@@ -1,6 +1,9 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { ArrowRight } from "lucide-react";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
 const stats = [
   { value: "10K+", label: "Clothes Donated" },
@@ -21,7 +24,7 @@ export function ImpactSection() {
         >
           Our Impact
         </motion.h2>
-        <div className="grid md:grid-cols-3 gap-8">
+        <div className="grid md:grid-cols-3 gap-8 mb-16">
           {stats.map((stat, index) => (
             <motion.div
               key={stat.label}
@@ -44,6 +47,13 @@ export function ImpactSection() {
               <div className="text-xl text-card-foreground">{stat.label}</div>
             </motion.div>
           ))}
+        </div>
+        <div className="text-center">
+          <Link href="/join">
+            <Button size="lg" className="font-semibold">
+              Join as Volunteer <ArrowRight className="ml-2 h-4 w-4" />
+            </Button>
+          </Link>
         </div>
       </div>
     </section>

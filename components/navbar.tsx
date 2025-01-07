@@ -3,7 +3,7 @@
 import { Menu } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
-import { Button } from "./ui/button";
+import { ThemeToggle } from "@/components/theme/theme-toggle";
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -13,7 +13,7 @@ export function Navbar() {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           <Link href="/" className="text-xl font-bold">
-            ClothesForAll
+            DevDonations
           </Link>
 
           {/* Desktop Navigation */}
@@ -27,18 +27,18 @@ export function Navbar() {
             <Link href="/distribution" className="text-foreground/80 hover:text-foreground transition">
               Distribution
             </Link>
-            <Button asChild>
-              <Link href="/donate">Start Donating</Link>
-            </Button>
+            <ThemeToggle />
           </div>
 
           {/* Mobile Menu Button */}
-          <button
-            className="md:hidden"
-            onClick={() => setIsOpen(!isOpen)}
-          >
-            <Menu className="h-6 w-6" />
-          </button>
+          <div className="md:hidden flex items-center gap-4">
+            <ThemeToggle />
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+            >
+              <Menu className="h-6 w-6" />
+            </button>
+          </div>
         </div>
 
         {/* Mobile Navigation */}
@@ -66,11 +66,6 @@ export function Navbar() {
               >
                 Distribution
               </Link>
-              <Button asChild className="w-full">
-                <Link href="/donate" onClick={() => setIsOpen(false)}>
-                  Start Donating
-                </Link>
-              </Button>
             </div>
           </div>
         )}

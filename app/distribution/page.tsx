@@ -4,7 +4,6 @@ import { Search } from "lucide-react";
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { EventCard } from "@/components/distribution/event-card";
-import { VolunteerSection } from "@/components/distribution/volunteer-section";
 import { motion } from "framer-motion";
 
 const events = [
@@ -73,13 +72,11 @@ export default function DistributionPage() {
           </div>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredEvents.map((event, index) => (
             <EventCard key={event.id} event={event} index={index} />
           ))}
         </div>
-
-        <VolunteerSection />
       </div>
     </div>
   );

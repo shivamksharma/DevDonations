@@ -7,9 +7,9 @@ export function Footer() {
       <div className="container mx-auto px-4 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>
-            <h3 className="text-lg font-semibold mb-4">ClothesForAll</h3>
+            <h3 className="text-lg font-semibold mb-4">DevDonations</h3>
             <p className="text-muted-foreground">
-              Making a difference in people's lives through clothing donations.
+              Making a difference in developers' lives through tech equipment donations.
             </p>
           </div>
           
@@ -37,9 +37,9 @@ export function Footer() {
           <div>
             <h3 className="text-lg font-semibold mb-4">Contact</h3>
             <ul className="space-y-2 text-muted-foreground">
-              <li>123 Donation Street</li>
-              <li>City, State 12345</li>
-              <li>contact@clothesforall.org</li>
+              <li>123 Developer Street</li>
+              <li>Tech City, TC 12345</li>
+              <li>contact@devdonations.org</li>
               <li>(123) 456-7890</li>
             </ul>
           </div>
@@ -64,7 +64,7 @@ export function Footer() {
         </div>
         
         <div className="border-t mt-12 pt-8 text-center text-muted-foreground">
-          <p>&copy; {new Date().getFullYear()} ClothesForAll. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} DevDonations. All rights reserved.</p>
         </div>
       </div>
     </footer>
