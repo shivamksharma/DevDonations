@@ -23,9 +23,9 @@ export function StatsCards() {
         }
         
         setStats({
-          total: donations.length,
-          pending: donations.filter(d => d.status === 'pending').length,
-          completed: donations.filter(d => d.status === 'completed').length
+          total: donations?.length || 0,
+          pending: donations?.filter((d: any) => d.status === 'pending').length || 0,
+          completed: donations?.filter((d: any) => d.status === 'completed').length || 0
         });
       } catch (error) {
         toast.error("Failed to fetch statistics");

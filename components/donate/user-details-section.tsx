@@ -21,8 +21,14 @@ import { DropOffLocations } from "./drop-off-locations";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import { useWatch } from "react-hook-form";
+import { UseFormReturn } from "react-hook-form";
+import { DonationFormData } from "@/lib/schemas/donation-form-schema";
 
-export function UserDetailsSection({ form }) {
+interface UserDetailsSectionProps {
+  form: UseFormReturn<DonationFormData>;
+}
+
+export function UserDetailsSection({ form }: UserDetailsSectionProps) {
   const pickupType = useWatch({
     control: form.control,
     name: "pickupType",
