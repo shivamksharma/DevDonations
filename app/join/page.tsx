@@ -21,6 +21,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { useState } from "react";
 import { toast } from "@/hooks/use-toast";
+import { addVolunteer } from '@/lib/firebase/volunteers';
 
 export default function JoinPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -41,8 +42,11 @@ export default function JoinPage() {
   async function onSubmit(data: VolunteerFormData) {
     setIsSubmitting(true);
     try {
-      // Simulating API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      const { id, error } = await addVolunteer(data);
+      if (error) {
+        toast.error(error);
+        return;
+      }
       toast.success("Application submitted successfully!");
       form.reset();
     } catch (error) {

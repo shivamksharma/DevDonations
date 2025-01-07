@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { getVolunteers, updateVolunteerStatus as updateVolunteerStatusFirebase } from '@/lib/firebase/volunteers';
 
 export interface Volunteer {
   id: string;
@@ -16,27 +17,30 @@ export interface Volunteer {
 
 interface VolunteerStore {
   volunteers: Volunteer[];
-  addVolunteer: (volunteer: Omit<Volunteer, 'id' | 'status' | 'appliedAt'>) => void;
-  updateVolunteerStatus: (id: string, status: Volunteer['status']) => void;
+  fetchVolunteers: () => Promise<void>;
+  updateVolunteerStatus: (id: string, status: Volunteer['status']) => Promise<void>;
 }
 
 export const useVolunteerStore = create<VolunteerStore>()(
   persist(
     (set) => ({
       volunteers: [],
-      addVolunteer: (volunteer) => set((state) => ({
-        volunteers: [...state.volunteers, {
-          ...volunteer,
-          id: `VOL-${String(state.volunteers.length + 1).padStart(3, '0')}`,
-          status: 'pending',
-          appliedAt: new Date().toISOString(),
-        }],
-      })),
-      updateVolunteerStatus: (id, status) => set((state) => ({
-        volunteers: state.volunteers.map((v) =>
-          v.id === id ? { ...v, status } : v
-        ),
-      })),
+      fetchVolunteers: async () => {
+        const { volunteers, error } = await getVolunteers();
+        if (error) {
+          console.error("Error fetching volunteers:", error);
+          return;
+        }
+        set({ volunteers });
+      },
+      updateVolunteerStatus: async (id, status) => {
+        await updateVolunteerStatusFirebase(id, status);
+        set((state) => ({
+          volunteers: state.volunteers.map((v) =>
+            v.id === id ? { ...v, status } : v
+          ),
+        }));
+      },
     }),
     {
       name: 'volunteers-storage',

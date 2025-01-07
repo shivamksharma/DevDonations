@@ -20,6 +20,8 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { useState } from "react";
+import { addVolunteer } from '@/lib/firebase/volunteers';
+import { toast } from "react-hot-toast";
 
 export default function VolunteerPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -39,10 +41,19 @@ export default function VolunteerPage() {
 
   async function onSubmit(data: VolunteerFormData) {
     setIsSubmitting(true);
-    console.log(data);
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    setIsSubmitting(false);
-    form.reset();
+    try {
+      const { id, error } = await addVolunteer(data);
+      if (error) {
+        toast.error(error);
+        return;
+      }
+      toast.success("Application submitted successfully!");
+      form.reset();
+    } catch (error) {
+      toast.error("Something went wrong. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
   return (
