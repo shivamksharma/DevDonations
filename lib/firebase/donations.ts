@@ -23,7 +23,7 @@ export const addDonation = async (donationData: DonationFormData) => {
       createdAt: Timestamp.now(),
     });
     return { id: docRef.id, error: null };
-  } catch (error) {
+  } catch (error: any) {
     console.error('Error adding donation:', error);
     return { id: null, error: error.message };
   }
@@ -31,13 +31,15 @@ export const addDonation = async (donationData: DonationFormData) => {
 
 export const getDonations = async (status?: 'pending' | 'completed') => {
   try {
-    let q = collection(db, DONATIONS_COLLECTION);
-    
+    const donationsCollection = collection(db, DONATIONS_COLLECTION);
+    let queryConstraints = [];
+
     if (status) {
-      q = query(q, where('status', '==', status));
+      queryConstraints.push(where('status', '==', status));
     }
-    
-    q = query(q, orderBy('createdAt', 'desc'));
+    queryConstraints.push(orderBy('createdAt', 'desc'));
+
+    const q = query(donationsCollection, ...queryConstraints);
     
     const snapshot = await getDocs(q);
     const donations = snapshot.docs.map(doc => ({
@@ -46,7 +48,7 @@ export const getDonations = async (status?: 'pending' | 'completed') => {
     }));
     
     return { donations, error: null };
-  } catch (error) {
+  } catch (error: any) {
     console.error('Error getting donations:', error);
     return { donations: [], error: error.message };
   }
@@ -56,7 +58,7 @@ export const updateDonationStatus = async (id: string, status: 'pending' | 'comp
   try {
     await updateDoc(doc(db, DONATIONS_COLLECTION, id), { status });
     return { error: null };
-  } catch (error) {
+  } catch (error: any) {
     console.error('Error updating donation status:', error);
     return { error: error.message };
   }
@@ -66,7 +68,7 @@ export const deleteDonation = async (id: string) => {
   try {
     await deleteDoc(doc(db, DONATIONS_COLLECTION, id));
     return { error: null };
-  } catch (error) {
+  } catch (error: any) {
     console.error('Error deleting donation:', error);
     return { error: error.message };
   }
