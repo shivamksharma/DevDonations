@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Search, Trash2, CheckCircle, Package } from "lucide-react";
 import { Input } from "@/components/ui/input";
@@ -20,47 +20,27 @@ import {
 } from "@/components/ui/popover";
 import { toast } from "@/hooks/use-toast";
 import { Badge } from "@/components/ui/badge";
-
-// Mock data for demonstration
-const mockDonations = [
-  {
-    id: "1",
-    name: "John Doe",
-    whatsappNumber: "+1234567890",
-    pickupType: "pickup",
-    address: "123 Main St",
-    status: "pending",
-    items: [
-      { type: "tshirt", quantity: 3 },
-      { type: "pants", quantity: 2 },
-      { type: "jacket", quantity: 1 }
-    ]
-  },
-  {
-    id: "2",
-    name: "Jane Smith",
-    whatsappNumber: "+0987654321",
-    pickupType: "dropoff",
-    address: "",
-    status: "completed",
-    items: [
-      { type: "dress", quantity: 2 },
-      { type: "skirt", quantity: 1 },
-      { type: "sweater", quantity: 3 }
-    ]
-  }
-];
+import { useDonationStore } from "@/lib/store/donations";
 
 export function DonationsTable() {
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState<'all' | 'pending' | 'completed'>('all');
-  const [donations] = useState(mockDonations);
+  const donations = useDonationStore((state) => state.donations);
+  const updateDonationStatus = useDonationStore((state) => state.updateDonationStatus);
+  const deleteDonation = useDonationStore((state) => state.deleteDonation);
+  const fetchDonations = useDonationStore((state) => state.fetchDonations);
+
+  useEffect(() => {
+    fetchDonations();
+  }, [fetchDonations]);
 
   const handleStatusUpdate = async (id: string) => {
+    updateDonationStatus(id, "completed");
     toast.success('Donation status updated');
   };
 
   const handleDelete = async (id: string) => {
+    deleteDonation(id);
     toast.success('Donation deleted');
   };
 
@@ -68,7 +48,10 @@ export function DonationsTable() {
     const matchesSearch = 
       donation.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       donation.address?.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesStatus = statusFilter === 'all' || donation.status === statusFilter;
+    let matchesStatus = true;
+    if (statusFilter !== 'all') {
+      matchesStatus = donation.status === statusFilter;
+    }
     return matchesSearch && matchesStatus;
   });
 
