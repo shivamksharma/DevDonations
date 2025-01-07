@@ -30,13 +30,15 @@ export const addVolunteer = async (volunteerData: VolunteerFormData) => {
 
 export const getVolunteers = async (status?: 'pending' | 'approved' | 'rejected') => {
   try {
-    let q = collection(db, VOLUNTEERS_COLLECTION);
+    const volunteersCollection = collection(db, VOLUNTEERS_COLLECTION);
 
+    let queryConstraints = [];
     if (status) {
-      q = query(q, where('status', '==', status));
+      queryConstraints.push(where('status', '==', status));
     }
+    queryConstraints.push(orderBy('appliedAt', 'desc'));
 
-    q = query(q, orderBy('appliedAt', 'desc'));
+    const q = query(volunteersCollection, ...queryConstraints);
 
     const snapshot = await getDocs(q);
     const volunteers = snapshot.docs.map(doc => ({
