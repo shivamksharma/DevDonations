@@ -20,31 +20,16 @@ export function AuthGuard({ children }: { children: React.ReactNode }) {
         try {
           const { user: adminUser, error } = await signIn(ADMIN_EMAIL, ADMIN_PASSWORD);
           if (error || !adminUser) {
-            // Redirect to login page if auto sign-in fails
-            if (pathname !== '/admin/login') {
-              router.push('/admin/login');
-            }
             return;
           }
         } catch (error) {
           console.error('Auth error:', error);
-          if (pathname !== '/admin/login') {
-            router.push('/admin/login');
-          }
         }
       }
     }
 
     authenticate();
   }, [user, loading, router, pathname, loggedOut]);
-
-  useEffect(() => {
-    if (!loading && (!user || !isAdminUser(user?.email || ''))) {
-      if (pathname !== '/admin/login') {
-        router.push('/admin/login');
-      }
-    }
-  }, [user, loading, router, pathname]);
 
   useEffect(() => {
     if (user === null) {
@@ -59,9 +44,8 @@ export function AuthGuard({ children }: { children: React.ReactNode }) {
   }
 
   if (!user || !isAdminUser(user.email || '')) {
-    // Redirect to login page if not authenticated or not admin
-    if (pathname !== '/admin/login') {
-      router.push('/admin/login');
+    if (pathname === '/admin') {
+      return null;
     }
     return null;
   }
