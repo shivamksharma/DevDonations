@@ -45,7 +45,10 @@ export function UserDetailsSection({ form }: UserDetailsSectionProps) {
         name="name"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Full Name</FormLabel>
+            <FormLabel>
+              Full Name
+              <span className="text-destructive ml-1">*</span>
+            </FormLabel>
             <FormControl>
               <Input placeholder="John Doe" {...field} />
             </FormControl>
@@ -59,7 +62,10 @@ export function UserDetailsSection({ form }: UserDetailsSectionProps) {
         name="whatsappNumber"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>WhatsApp Number</FormLabel>
+            <FormLabel>
+              WhatsApp Number
+              <span className="text-destructive ml-1">*</span>
+            </FormLabel>
             <FormControl>
               <Input placeholder="+1234567890" {...field} />
             </FormControl>
@@ -73,7 +79,10 @@ export function UserDetailsSection({ form }: UserDetailsSectionProps) {
         name="pickupType"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Pickup Type</FormLabel>
+            <FormLabel>
+              Pickup Type
+              <span className="text-destructive ml-1">*</span>
+            </FormLabel>
             <FormControl>
               <RadioGroup
                 onValueChange={field.onChange}
@@ -111,7 +120,10 @@ export function UserDetailsSection({ form }: UserDetailsSectionProps) {
             name="address"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Pickup Address</FormLabel>
+                <FormLabel>
+                  Address
+                  <span className="text-destructive ml-1">*</span>
+                </FormLabel>
                 <FormControl>
                   <Textarea 
                     placeholder="Enter your complete address"
@@ -129,7 +141,10 @@ export function UserDetailsSection({ form }: UserDetailsSectionProps) {
             name="preferredDate"
             render={({ field }) => (
               <FormItem className="flex flex-col">
-                <FormLabel>Preferred Pickup Date</FormLabel>
+                <FormLabel>
+                  Preferred Date
+                  <span className="text-destructive ml-1">*</span>
+                </FormLabel>
                 <Popover>
                   <PopoverTrigger asChild>
                     <FormControl>
@@ -169,7 +184,10 @@ export function UserDetailsSection({ form }: UserDetailsSectionProps) {
             name="preferredTime"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Preferred Pickup Time</FormLabel>
+                <FormLabel>
+                  Preferred Time
+                  <span className="text-destructive ml-1">*</span>
+                </FormLabel>
                 <Select onValueChange={field.onChange} defaultValue={field.value}>
                   <FormControl>
                     <SelectTrigger>
