@@ -9,7 +9,7 @@ export function Footer() {
           <div>
             <h3 className="text-lg font-semibold mb-4">DevDonations</h3>
             <p className="text-muted-foreground">
-              Making a difference in developers' lives through tech equipment donations.
+              Making a difference by donating clothes to those in need.
             </p>
           </div>
           
