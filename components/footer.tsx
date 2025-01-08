@@ -37,8 +37,8 @@ export function Footer() {
           <div>
             <h3 className="text-lg font-semibold mb-4">Contact</h3>
             <ul className="space-y-2 text-muted-foreground">
-              <li>123 Developer Street</li>
-              <li>Tech City, TC 12345</li>
+              <li>Munger, Bihar</li>
+              <li>811201</li>
               <li>contact@devdonations.org</li>
               <li>(123) 456-7890</li>
             </ul>
