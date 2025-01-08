@@ -28,7 +28,7 @@ export function HeroSection() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
         >
-          Donate Clothes, Spread Warmth
+          Clothes for Cause, Donate Today
         </motion.h1>
         <motion.p 
           className="text-xl md:text-2xl mb-8 max-w-2xl mx-auto"
@@ -36,7 +36,7 @@ export function HeroSection() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
         >
-          Your gently used clothes can make a world of difference in someone's life
+          Your gently used clothes can provide warmth and hope to those in need. Start donating today and make a difference!
         </motion.p>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
