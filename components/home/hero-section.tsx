@@ -45,7 +45,7 @@ export function HeroSection() {
         >
           <Link 
             href="/donate"
-            className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-4 rounded-full text-lg font-semibold inline-flex items-center gap-2 transition-all"
+            className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-4 rounded-full text-lg font-semibold inline-flex items-center gap-2 transition-all hover:scale-105"
           >
             Start Donating <ArrowRight className="w-5 h-5" />
           </Link>
