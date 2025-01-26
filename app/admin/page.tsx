@@ -9,6 +9,7 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from '@/lib/firebase/auth';
 import { isAdminUser } from '@/lib/firebase/admin-auth';
 import LoginPage from './login/page';
+import AnalyticsPage from './analytics/page';
 
 export default function AdminDashboard() {
   const [user, loading] = useAuthState(auth);
@@ -34,6 +35,7 @@ export default function AdminDashboard() {
           <TabsList>
             <TabsTrigger value="donations">Donations</TabsTrigger>
             <TabsTrigger value="volunteers">Volunteers</TabsTrigger>
+            <TabsTrigger value="analytics">Analytics</TabsTrigger>
           </TabsList>
           
           <TabsContent value="donations">
@@ -42,6 +44,10 @@ export default function AdminDashboard() {
           
           <TabsContent value="volunteers">
             <VolunteersTable />
+          </TabsContent>
+          
+          <TabsContent value="analytics">
+            <AnalyticsPage />
           </TabsContent>
         </Tabs>
       </div>
