@@ -10,7 +10,7 @@ DevDonations is a full-stack platform connecting donors with developers in need 
 
 Experience the platform live: [https://devdonation.vercel.app/](https://devdonation.vercel.app/)
 
-![DevDonations Preview](/assets/screenshot_1.png)
+![DevDonations Preview](./assets/screenshot_1.png)
 
 ## ✨ Features
 
