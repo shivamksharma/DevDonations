@@ -6,11 +6,11 @@
 
 DevDonations is a full-stack platform connecting donors with developers in need through clothing donations. Our mission is to bridge the gap between surplus resources and community needs using modern web technologies.
 
-![DevDonations Screenshot](https://via.placeholder.com/150) <!-- Replace with actual screenshot -->
-
 ## 🚀 Live Demo
 
 Experience the platform live: [https://devdonation.vercel.app/](https://devdonation.vercel.app/)
+
+![DevDonations Preview](/assets/screenshot_1.png)
 
 ## ✨ Features
 
