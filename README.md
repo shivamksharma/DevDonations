@@ -1,21 +1,60 @@
-# DevDonations
+# DevDonations 🌟
 
-![DevDonations Logo](https://via.placeholder.com/150) <!-- Add your project logo here -->
+[![Project Status](https://img.shields.io/badge/status-active-brightgreen)](https://devdonation.vercel.app/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+[![Next.js](https://img.shields.io/badge/Next.js-13.5.1-000000?logo=next.js)](https://nextjs.org/)
+[![Firebase](https://img.shields.io/badge/Firebase-10.9.0-FFCA28?logo=firebase)](https://firebase.google.com/)
 
-DevDonations is a platform designed to support developers by enabling seamless donations and contributions. Built with modern web technologies, it aims to empower developers and maintainers to sustain their projects efficiently.
+DevDonations is a full-stack platform connecting donors with developers in need through clothing donations. Our mission is to bridge the gap between surplus resources and community needs using modern web technologies.
 
-## 🚀 Features
+![DevDonations Screenshot](https://via.placeholder.com/150) <!-- Replace with actual screenshot -->
 
-- **Admin Authentication**: Secure and robust admin access control.
-- **Volunteer Request Handling**: Manage volunteer contributions effectively.
-- **Responsive Design**: Optimized for all screen sizes using TailwindCSS.
-- **Modern Tech Stack**: Built with Next.js and TypeScript for performance and scalability.
+## 🚀 Live Demo
 
-## 🌐 Live Demo
+Experience the platform live: [https://devdonation.vercel.app/](https://devdonation.vercel.app/)
 
-Check out the live application here: [DevDonations](https://devdonation.vercel.app/)
+## ✨ Features
 
-## 📂 Project Structure
+### Core Functionality
+- **Donation Management** (Reference: `components/donate/user-details-section.tsx` startLine:31, endLine:142)
+  - Multi-step donation form with validation
+  - Flexible pickup/dropoff scheduling
+  - Real-time donation tracking
+- **Admin Dashboard** (Reference: `app/admin/page.tsx` startLine:1, endLine:56)
+  - Role-based access control
+  - Real-time analytics & statistics
+  - Donation status management
+- **Volunteer System**
+  - Volunteer application processing
+  - Task assignment & tracking
+
+### Technical Highlights
+- Responsive UI with smooth animations
+- Secure Firebase authentication
+- Zustand state management
+- Recharts-powered analytics
+- Form validation with Zod & React Hook Form
+
+## 🛠 Tech Stack
+
+**Frontend:**
+- Next.js 13 App Router
+- TypeScript
+- Tailwind CSS + Shadcn UI
+- Framer Motion animations
+
+**Backend:**
+- Firebase Authentication
+- Firestore Database
+- Vercel Serverless Functions
+
+**Utilities:**
+- Zustand (State management)
+- Zod (Validation)
+- Recharts (Data visualization)
+- React Hook Form (Form handling)
+
+## 📦 Project Structure
 
 ```
 DevDonations/
@@ -28,12 +67,6 @@ DevDonations/
 ├── tailwind.config.ts  # TailwindCSS configuration
 ├── tsconfig.json       # TypeScript configuration
 ```
-
-## 🛠️ Tech Stack
-
-- **Frontend**: [Next.js](https://nextjs.org/), [TypeScript](https://www.typescriptlang.org/)
-- **Styling**: [TailwindCSS](https://tailwindcss.com/)
-- **Deployment**: [Vercel](https://vercel.com/)
 
 ## 📦 Installation
 
