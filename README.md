@@ -2,8 +2,7 @@
 
 [![Project Status](https://img.shields.io/badge/status-active-brightgreen)](https://devdonation.vercel.app/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
-[![Next.js](https://img.shields.io/badge/Next.js-13.5.1-000000?logo=next.js)](https://nextjs.org/)
-[![Firebase](https://img.shields.io/badge/Firebase-10.9.0-FFCA28?logo=firebase)](https://firebase.google.com/)
+[![Version](https://img.shields.io/badge/version-1.15-blue)](https://github.com/shivamksharma/DevDonations/releases)
 
 DevDonations is a full-stack platform connecting donors with developers in need through clothing donations. Our mission is to bridge the gap between surplus resources and community needs using modern web technologies.
 
