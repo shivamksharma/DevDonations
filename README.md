@@ -15,14 +15,10 @@ Experience the platform live: [https://devdonation.vercel.app/](https://devdonat
 ## ✨ Features
 
 ### Core Functionality
-- **Donation Management** (Reference: `components/donate/user-details-section.tsx` startLine:31, endLine:142)
+- **Donation Management**
   - Multi-step donation form with validation
   - Flexible pickup/dropoff scheduling
   - Real-time donation tracking
-- **Admin Dashboard** (Reference: `app/admin/page.tsx` startLine:1, endLine:56)
-  - Role-based access control
-  - Real-time analytics & statistics
-  - Donation status management
 - **Volunteer System**
   - Volunteer application processing
   - Task assignment & tracking
@@ -33,39 +29,6 @@ Experience the platform live: [https://devdonation.vercel.app/](https://devdonat
 - Zustand state management
 - Recharts-powered analytics
 - Form validation with Zod & React Hook Form
-
-## 🛠 Tech Stack
-
-**Frontend:**
-- Next.js 13 App Router
-- TypeScript
-- Tailwind CSS + Shadcn UI
-- Framer Motion animations
-
-**Backend:**
-- Firebase Authentication
-- Firestore Database
-- Vercel Serverless Functions
-
-**Utilities:**
-- Zustand (State management)
-- Zod (Validation)
-- Recharts (Data visualization)
-- React Hook Form (Form handling)
-
-## 📦 Project Structure
-
-```
-DevDonations/
-├── app/                # Core application logic
-├── components/         # Reusable UI components
-├── hooks/              # Custom React hooks
-├── lib/                # Utility functions and helpers
-├── .eslintrc.json      # ESLint configuration
-├── next.config.js      # Next.js configuration
-├── tailwind.config.ts  # TailwindCSS configuration
-├── tsconfig.json       # TypeScript configuration
-```
 
 ## 📦 Installation
 
