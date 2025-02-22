@@ -27,6 +27,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { Donation } from "@/lib/store/donations";
 
 export function DonationsTable() {
   const [searchTerm, setSearchTerm] = useState("");
