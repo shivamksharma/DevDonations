@@ -125,7 +125,7 @@ export function UserDetailsSection({ form }: UserDetailsSectionProps) {
                   <span className="text-destructive ml-1">*</span>
                 </FormLabel>
                 <FormControl>
-                  <Textarea 
+                  <Textarea
                     placeholder="Enter your complete address"
                     className="resize-none"
                     {...field}
@@ -216,7 +216,7 @@ export function UserDetailsSection({ form }: UserDetailsSectionProps) {
           <FormItem>
             <FormLabel>Additional Message (Optional)</FormLabel>
             <FormControl>
-              <Textarea 
+              <Textarea
                 placeholder="Any special instructions or notes..."
                 className="resize-none"
                 {...field}
