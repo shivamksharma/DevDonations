@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Search, Trash2, CheckCircle, Package } from "lucide-react";
+import { Search, Trash2, CheckCircle, Package, Eye } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import {
@@ -21,6 +21,12 @@ import {
 import { toast } from "@/hooks/use-toast";
 import { Badge } from "@/components/ui/badge";
 import { useDonationStore } from "@/lib/store/donations";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 export function DonationsTable() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -29,6 +35,7 @@ export function DonationsTable() {
   const updateDonationStatus = useDonationStore((state) => state.updateDonationStatus);
   const deleteDonation = useDonationStore((state) => state.deleteDonation);
   const fetchDonations = useDonationStore((state) => state.fetchDonations);
+  const [viewingDonation, setViewingDonation] = useState<Donation | null>(null);
 
   useEffect(() => {
     fetchDonations();
@@ -132,6 +139,13 @@ export function DonationsTable() {
                 </TableCell>
                 <TableCell>
                   <div className="flex gap-2">
+                    <Button
+                      size="sm"
+                      variant="ghost"
+                      onClick={() => setViewingDonation(donation)}
+                    >
+                      <Eye className="w-4 h-4" />
+                    </Button>
                     {donation.status === 'pending' && (
                       <Button
                         size="sm"
@@ -156,6 +170,52 @@ export function DonationsTable() {
           </TableBody>
         </Table>
       </div>
+
+      <Dialog open={!!viewingDonation} onOpenChange={() => setViewingDonation(null)}>
+        <DialogContent className="max-w-md sm:max-w-2xl">
+          <DialogHeader>
+            <DialogTitle>Donation Details</DialogTitle>
+          </DialogHeader>
+          {viewingDonation && (
+            <div className="grid gap-4 py-4">
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <p className="text-sm text-muted-foreground">Donor Name</p>
+                  <p className="font-medium">{viewingDonation.name}</p>
+                </div>
+                <div>
+                  <p className="text-sm text-muted-foreground">Contact Number</p>
+                  <p className="font-medium">{viewingDonation.whatsappNumber}</p>
+                </div>
+                <div>
+                  <p className="text-sm text-muted-foreground">Pickup Type</p>
+                  <p className="font-medium capitalize">{viewingDonation.pickupType}</p>
+                </div>
+                <div>
+                  <p className="text-sm text-muted-foreground">Status</p>
+                  <p className="font-medium capitalize">{viewingDonation.status}</p>
+                </div>
+              </div>
+              <div>
+                <p className="text-sm text-muted-foreground">Address</p>
+                <p className="font-medium">
+                  {viewingDonation.address || 'Drop-off Location'}
+                </p>
+              </div>
+              <div>
+                <p className="text-sm text-muted-foreground">Donated Items</p>
+                <div className="flex flex-wrap gap-2 mt-2">
+                  {viewingDonation.items.map((item, index) => (
+                    <Badge key={index} variant="secondary">
+                      {item.quantity}x {item.type}
+                    </Badge>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
     </motion.div>
   );
 }
