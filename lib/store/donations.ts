@@ -14,6 +14,8 @@ export interface Donation {
   whatsappNumber: string;
   pickupType: string;
   address: string;
+  preferredDate?: string;
+  preferredTime?: string;
   items: DonationItem[];
   message?: string;
   status: 'pending' | 'completed';
