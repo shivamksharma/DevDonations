@@ -15,6 +15,12 @@ import {
 } from "@/components/ui/table";
 import { useVolunteerStore } from "@/lib/store/volunteers";
 import { toast } from "@/hooks/use-toast";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 export function VolunteersTable() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -79,31 +85,52 @@ export function VolunteersTable() {
                 <TableCell>{volunteer.role}</TableCell>
                 <TableCell>{volunteer.status}</TableCell>
                 <TableCell>
-                  <div className="flex gap-2">
+                  <div className="flex justify-end gap-2">
                     {volunteer.status === 'pending' && (
                       <>
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          onClick={() => {
-                            updateVolunteerStatus(volunteer.id, 'approved');
-                            toast.success('Volunteer application approved');
-                          }}
-                        >
-                          <Check className="w-4 h-4 mr-1" />
-                          Approve
-                        </Button>
-                        <Button
-                          size="sm"
-                          variant="destructive"
-                          onClick={() => {
-                            updateVolunteerStatus(volunteer.id, 'rejected');
-                            toast.success('Volunteer application rejected');
-                          }}
-                        >
-                          <X className="w-4 h-4 mr-1" />
-                          Reject
-                        </Button>
+                        <TooltipProvider>
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <Button
+                                size="icon"
+                                variant="outline"
+                                className="h-8 w-8 text-green-600 hover:text-green-700 hover:bg-green-50"
+                                onClick={() => {
+                                  updateVolunteerStatus(volunteer.id, 'approved');
+                                  toast.success('Volunteer application approved');
+                                }}
+                              >
+                                <Check className="h-4 w-4" />
+                                <span className="sr-only">Approve volunteer</span>
+                              </Button>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                              <p>Approve volunteer</p>
+                            </TooltipContent>
+                          </Tooltip>
+                        </TooltipProvider>
+
+                        <TooltipProvider>
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <Button
+                                size="icon"
+                                variant="outline"
+                                className="h-8 w-8 text-red-600 hover:text-red-700 hover:bg-red-50"
+                                onClick={() => {
+                                  updateVolunteerStatus(volunteer.id, 'rejected');
+                                  toast.success('Volunteer application rejected');
+                                }}
+                              >
+                                <X className="h-4 w-4" />
+                                <span className="sr-only">Reject volunteer</span>
+                              </Button>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                              <p>Reject volunteer</p>
+                            </TooltipContent>
+                          </Tooltip>
+                        </TooltipProvider>
                       </>
                     )}
                   </div>
