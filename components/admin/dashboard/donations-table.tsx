@@ -203,6 +203,24 @@ export function DonationsTable() {
                   {viewingDonation.address || 'Drop-off Location'}
                 </p>
               </div>
+              {viewingDonation.preferredDate && (
+                <div>
+                  <p className="text-sm text-muted-foreground">Preferred Date</p>
+                  <p className="font-medium">
+                    {new Date(viewingDonation.preferredDate).toLocaleDateString('en-US', {
+                      year: 'numeric',
+                      month: 'long',
+                      day: 'numeric'
+                    })}
+                  </p>
+                </div>
+              )}
+              {viewingDonation.preferredTime && (
+                <div>
+                  <p className="text-sm text-muted-foreground">Preferred Time</p>
+                  <p className="font-medium capitalize">{viewingDonation.preferredTime}</p>
+                </div>
+              )}
               <div>
                 <p className="text-sm text-muted-foreground">Donated Items</p>
                 <div className="flex flex-wrap gap-2 mt-2">
