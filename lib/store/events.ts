@@ -5,12 +5,16 @@ import {
   createEvent, 
   updateEvent as updateEventFirebase,
   deleteEvent as deleteEventFirebase,
+  subscribeToEvents,
   type DistributionEvent 
 } from '@/lib/firebase/events';
 
 interface EventStore {
   events: DistributionEvent[];
+  loading: boolean;
+  error: string | null;
   fetchEvents: () => Promise<void>;
+  subscribeToEvents: () => () => void;
   createEvent: (eventData: Omit<DistributionEvent, 'id' | 'createdAt' | 'updatedAt'>) => Promise<{ id: string | null; error: string | null }>;
   updateEvent: (id: string, eventData: Partial<DistributionEvent>) => Promise<{ error: string | null }>;
   deleteEvent: (id: string) => Promise<{ error: string | null }>;
@@ -18,52 +22,75 @@ interface EventStore {
 
 export const useEventStore = create<EventStore>()(
   persist(
-    (set) => ({
+    (set, get) => ({
       events: [],
+      loading: false,
+      error: null,
       fetchEvents: async () => {
-        const { events, error } = await getEvents();
-        if (error) {
-          console.error("Error fetching events:", error);
-          return;
+        try {
+          set({ loading: true, error: null });
+          const { events, error } = await getEvents();
+          if (error) {
+            set({ error });
+            return;
+          }
+          set({ events: events as DistributionEvent[] });
+        } catch (error: any) {
+          set({ error: error.message });
+        } finally {
+          set({ loading: false });
         }
-        set({ events: events as DistributionEvent[] });
+      },
+      subscribeToEvents: () => {
+        return subscribeToEvents((events) => {
+          set({ events });
+        });
       },
       createEvent: async (eventData) => {
-        const result = await createEvent(eventData);
-        if (result.error) {
+        try {
+          set({ loading: true, error: null });
+          const result = await createEvent(eventData);
+          if (result.error) {
+            set({ error: result.error });
+            return result;
+          }
           return result;
+        } catch (error: any) {
+          set({ error: error.message });
+          return { id: null, error: error.message };
+        } finally {
+          set({ loading: false });
         }
-        set((state) => ({
-          events: [...state.events, {
-            ...eventData,
-            id: result.id!,
-            createdAt: new Date().toISOString(),
-            updatedAt: new Date().toISOString(),
-          }],
-        }));
-        return result;
       },
       updateEvent: async (id, eventData) => {
-        const result = await updateEventFirebase(id, eventData);
-        if (result.error) {
+        try {
+          set({ loading: true, error: null });
+          const result = await updateEventFirebase(id, eventData);
+          if (result.error) {
+            set({ error: result.error });
+          }
           return result;
+        } catch (error: any) {
+          set({ error: error.message });
+          return { error: error.message };
+        } finally {
+          set({ loading: false });
         }
-        set((state) => ({
-          events: state.events.map((e) =>
-            e.id === id ? { ...e, ...eventData, updatedAt: new Date().toISOString() } : e
-          ),
-        }));
-        return result;
       },
       deleteEvent: async (id) => {
-        const result = await deleteEventFirebase(id);
-        if (result.error) {
+        try {
+          set({ loading: true, error: null });
+          const result = await deleteEventFirebase(id);
+          if (result.error) {
+            set({ error: result.error });
+          }
           return result;
+        } catch (error: any) {
+          set({ error: error.message });
+          return { error: error.message };
+        } finally {
+          set({ loading: false });
         }
-        set((state) => ({
-          events: state.events.filter((e) => e.id !== id),
-        }));
-        return result;
       },
     }),
     {
