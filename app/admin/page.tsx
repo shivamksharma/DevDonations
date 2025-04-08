@@ -10,6 +10,7 @@ import { auth } from '@/lib/firebase/auth';
 import { isAdminUser } from '@/lib/firebase/admin-auth';
 import LoginPage from './login/page';
 import AnalyticsPage from './analytics/page';
+import EventsPage from './events/page';
 
 export default function AdminDashboard() {
   const [user, loading] = useAuthState(auth);
@@ -35,6 +36,7 @@ export default function AdminDashboard() {
           <TabsList>
             <TabsTrigger value="donations">Donations</TabsTrigger>
             <TabsTrigger value="volunteers">Volunteers</TabsTrigger>
+            <TabsTrigger value="events">Events</TabsTrigger>
             <TabsTrigger value="analytics">Analytics</TabsTrigger>
           </TabsList>
           
@@ -44,6 +46,10 @@ export default function AdminDashboard() {
           
           <TabsContent value="volunteers">
             <VolunteersTable />
+          </TabsContent>
+
+          <TabsContent value="events">
+            <EventsPage />
           </TabsContent>
           
           <TabsContent value="analytics">
