@@ -5,22 +5,20 @@ import { StatsCards } from '@/components/admin/dashboard/stats-cards';
 import { DonationsTable } from '@/components/admin/dashboard/donations-table';
 import { VolunteersTable } from '@/components/admin/dashboard/volunteers-table';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useAuthState } from 'react-firebase-hooks/auth';
-import { auth } from '@/lib/firebase/auth';
-import { isAdminUser } from '@/lib/firebase/admin-auth';
-import LoginPage from './login/page';
+import { useAuth } from '@/lib/context/auth-context';
+import { LoadingState } from '@/components/ui/loading-state';
 import AnalyticsPage from './analytics/page';
 import EventsPage from './events/page';
 
 export default function AdminDashboard() {
-  const [user, loading] = useAuthState(auth);
+  const { user, loading, isAdmin } = useAuth();
 
   if (loading) {
-    return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
+    return <LoadingState label="Loading dashboard..." />;
   }
 
-  if (!user || !isAdminUser(user?.email || '')) {
-    return <LoginPage />;
+  if (!user || !isAdmin) {
+    return null; // The ProtectedAdminRoute will handle the redirect
   }
 
   return (
