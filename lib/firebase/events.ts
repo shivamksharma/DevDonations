@@ -8,7 +8,8 @@ import {
   Timestamp,
   updateDoc,
   doc,
-  deleteDoc
+  deleteDoc,
+  onSnapshot
 } from 'firebase/firestore';
 import { db } from './config';
 
@@ -39,6 +40,31 @@ export const createEvent = async (eventData: Omit<DistributionEvent, 'id' | 'cre
     console.error('Error creating event:', error);
     return { id: null, error: error.message };
   }
+};
+
+export const subscribeToEvents = (
+  onUpdate: (events: DistributionEvent[]) => void,
+  status?: DistributionEvent['status']
+) => {
+  const eventsCollection = collection(db, EVENTS_COLLECTION);
+  let queryConstraints = [];
+
+  if (status) {
+    queryConstraints.push(where('status', '==', status));
+  }
+  queryConstraints.push(orderBy('date', 'desc'));
+
+  const q = query(eventsCollection, ...queryConstraints);
+  
+  return onSnapshot(q, (snapshot) => {
+    const events = snapshot.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data()
+    })) as DistributionEvent[];
+    onUpdate(events);
+  }, (error) => {
+    console.error('Error subscribing to events:', error);
+  });
 };
 
 export const getEvents = async (status?: DistributionEvent['status']) => {
