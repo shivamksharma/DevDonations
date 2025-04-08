@@ -3,7 +3,7 @@
 import { useFormContext } from "react-hook-form";
 import { CategoryAccordion } from "./clothing-selector/category-accordion";
 import { SelectionSummary } from "./clothing-selector/selection-summary";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 
 interface ClothingQuantities {
@@ -11,8 +11,16 @@ interface ClothingQuantities {
 }
 
 export function ClothingFormSection() {
-  const { setValue, formState: { errors } } = useFormContext();
+  const { setValue, formState: { errors }, watch } = useFormContext();
   const [quantities, setQuantities] = useState<ClothingQuantities>({});
+
+  // Watch for form reset by monitoring the items field
+  const items = watch('items');
+  useEffect(() => {
+    if (items.length === 0) {
+      setQuantities({});
+    }
+  }, [items]);
 
   const handleQuantityChange = (id: string, value: number) => {
     setQuantities(prev => {
