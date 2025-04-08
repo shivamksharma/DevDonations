@@ -6,15 +6,17 @@ import { signOut } from '@/lib/firebase/auth';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { toast } from '@/hooks/use-toast';
+import { useAuth } from '@/lib/context/auth-context';
 
 export function DashboardHeader() {
   const router = useRouter();
+  const { user } = useAuth();
 
   const handleLogout = async () => {
     try {
       await signOut();
-      router.push('/');
-      toast.success('Logged out successfully');
+      // Force a hard navigation to ensure the auth state is fully cleared
+      window.location.href = '/admin/login';
     } catch (error: any) {
       toast.error('Failed to logout: ' + error.message);
     }
@@ -35,10 +37,13 @@ export function DashboardHeader() {
           <p className="text-muted-foreground">Manage donations and track impact</p>
         </div>
       </div>
-      <Button variant="outline" size="sm" onClick={handleLogout}>
-        <LogOut className="w-4 h-4 mr-2" />
-        Logout
-      </Button>
+      <div className="flex items-center gap-4">
+        <span className="text-sm text-muted-foreground">{user?.email}</span>
+        <Button variant="outline" size="sm" onClick={handleLogout}>
+          <LogOut className="w-4 h-4 mr-2" />
+          Logout
+        </Button>
+      </div>
     </motion.div>
   );
 }
