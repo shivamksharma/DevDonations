@@ -11,12 +11,15 @@ import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -37,9 +40,9 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { useEventStore } from "@/lib/store/events";
 import { eventFormSchema, type EventFormData } from "@/lib/schemas/event-form-schema";
-import { toast } from "@/hooks/use-toast";
+import { useEventStore } from "@/lib/store/events";
+import { toast } from "sonner";
 
 interface CreateEventDialogProps {
   open: boolean;
@@ -65,21 +68,24 @@ export function CreateEventDialog({ open, onOpenChange }: CreateEventDialogProps
   const onSubmit = async (data: EventFormData) => {
     try {
       setIsSubmitting(true);
-      // Convert Date object to ISO string for Firestore
+      // Convert the form data to match the store's expected format
       const eventData = {
         ...data,
-        date: data.date.toISOString(),
+        date: data.date.toISOString(), // Convert Date to string for Firestore
       };
-      const { error } = await createEvent(eventData);
-      if (error) {
-        toast.error(error);
+      const result = await createEvent(eventData);
+      
+      if (result.error) {
+        toast.error(result.error);
         return;
       }
+      
       toast.success("Event created successfully");
       form.reset();
       onOpenChange(false);
     } catch (error) {
-      toast.error("Failed to create event");
+      console.error("Error creating event:", error);
+      toast.error("Failed to create event. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
@@ -90,6 +96,9 @@ export function CreateEventDialog({ open, onOpenChange }: CreateEventDialogProps
       <DialogContent className="sm:max-w-[600px]">
         <DialogHeader>
           <DialogTitle>Create New Event</DialogTitle>
+          <DialogDescription>
+            Fill in the details below to create a new distribution event.
+          </DialogDescription>
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -106,7 +115,6 @@ export function CreateEventDialog({ open, onOpenChange }: CreateEventDialogProps
                 </FormItem>
               )}
             />
-
             <FormField
               control={form.control}
               name="location"
@@ -120,7 +128,6 @@ export function CreateEventDialog({ open, onOpenChange }: CreateEventDialogProps
                 </FormItem>
               )}
             />
-
             <FormField
               control={form.control}
               name="date"
@@ -162,21 +169,22 @@ export function CreateEventDialog({ open, onOpenChange }: CreateEventDialogProps
                 </FormItem>
               )}
             />
-
             <FormField
               control={form.control}
               name="imageUrl"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Image URL (Optional)</FormLabel>
+                  <FormLabel>Image URL</FormLabel>
                   <FormControl>
-                    <Input placeholder="Enter image URL" {...field} />
+                    <Input placeholder="Enter image URL (optional)" {...field} />
                   </FormControl>
+                  <FormDescription>
+                    Provide a URL for the event image. This is optional.
+                  </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
             />
-
             <FormField
               control={form.control}
               name="description"
@@ -194,7 +202,6 @@ export function CreateEventDialog({ open, onOpenChange }: CreateEventDialogProps
                 </FormItem>
               )}
             />
-
             <FormField
               control={form.control}
               name="status"
@@ -207,7 +214,7 @@ export function CreateEventDialog({ open, onOpenChange }: CreateEventDialogProps
                   >
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue placeholder="Select status" />
+                        <SelectValue placeholder="Select event status" />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
@@ -221,8 +228,7 @@ export function CreateEventDialog({ open, onOpenChange }: CreateEventDialogProps
                 </FormItem>
               )}
             />
-
-            <div className="flex justify-end gap-4">
+            <DialogFooter>
               <Button
                 type="button"
                 variant="outline"
@@ -237,7 +243,7 @@ export function CreateEventDialog({ open, onOpenChange }: CreateEventDialogProps
                 )}
                 Create Event
               </Button>
-            </div>
+            </DialogFooter>
           </form>
         </Form>
       </DialogContent>
