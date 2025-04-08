@@ -3,16 +3,10 @@
 import { motion } from "framer-motion";
 import { Calendar, MapPin } from "lucide-react";
 import Image from "next/image";
+import type { DistributionEvent } from "@/lib/firebase/events";
 
 interface EventCardProps {
-  event: {
-    id: number;
-    title: string;
-    location: string;
-    date: string;
-    image: string;
-    description: string;
-  };
+  event: DistributionEvent;
   index: number;
 }
 
@@ -26,14 +20,16 @@ export function EventCard({ event, index }: EventCardProps) {
       whileHover={{ y: -10 }}
       className="bg-card rounded-lg overflow-hidden shadow-lg"
     >
-      <div className="relative h-48">
-        <Image
-          src={event.image}
-          alt={event.title}
-          fill
-          className="object-cover"
-        />
-      </div>
+      {event.imageUrl && (
+        <div className="relative h-48">
+          <Image
+            src={event.imageUrl}
+            alt={event.title}
+            fill
+            className="object-cover"
+          />
+        </div>
+      )}
       <div className="p-6">
         <h3 className="text-xl font-semibold mb-2">{event.title}</h3>
         <div className="flex items-center text-muted-foreground mb-2">
