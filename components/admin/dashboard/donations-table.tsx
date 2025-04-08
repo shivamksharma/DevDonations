@@ -32,6 +32,7 @@ import { Donation } from "@/lib/store/donations";
 export function DonationsTable() {
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState<'all' | 'pending' | 'completed'>('all');
+  const [donationToDelete, setDonationToDelete] = useState<string | null>(null);
   const donations = useDonationStore((state) => state.donations);
   const updateDonationStatus = useDonationStore((state) => state.updateDonationStatus);
   const deleteDonation = useDonationStore((state) => state.deleteDonation);
@@ -48,8 +49,13 @@ export function DonationsTable() {
   };
 
   const handleDelete = async (id: string) => {
-    deleteDonation(id);
-    toast.success('Donation deleted');
+    try {
+      await deleteDonation(id);
+      toast.success('Donation deleted');
+      setDonationToDelete(null);
+    } catch (error) {
+      toast.error('Failed to delete donation');
+    }
   };
 
   const filteredDonations = donations.filter(donation => {
@@ -160,7 +166,7 @@ export function DonationsTable() {
                     <Button
                       size="sm"
                       variant="destructive"
-                      onClick={() => handleDelete(donation.id)}
+                      onClick={() => setDonationToDelete(donation.id)}
                     >
                       <Trash2 className="w-4 h-4" />
                     </Button>
@@ -233,6 +239,31 @@ export function DonationsTable() {
               </div>
             </div>
           )}
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={!!donationToDelete} onOpenChange={() => setDonationToDelete(null)}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Confirm Deletion</DialogTitle>
+          </DialogHeader>
+          <div className="py-4">
+            <p>Are you sure you want to delete this donation?</p>
+          </div>
+          <div className="flex justify-end gap-4">
+            <Button
+              variant="outline"
+              onClick={() => setDonationToDelete(null)}
+            >
+              No
+            </Button>
+            <Button
+              variant="destructive"
+              onClick={() => donationToDelete && handleDelete(donationToDelete)}
+            >
+              Yes
+            </Button>
+          </div>
         </DialogContent>
       </Dialog>
     </motion.div>
