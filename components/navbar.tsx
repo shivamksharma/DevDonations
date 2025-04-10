@@ -30,6 +30,9 @@ export function Navbar() {
             <Link href="/volunteer" className="text-foreground/80 hover:text-foreground transition">
               Volunteer
             </Link>
+            <Link href="/learn-more" className="text-foreground/80 hover:text-foreground transition">
+              Learn More
+            </Link>
             <ThemeToggle />
           </div>
 
@@ -75,6 +78,13 @@ export function Navbar() {
                 onClick={() => setIsOpen(false)}
               >
                 Volunteer
+              </Link>
+              <Link
+                href="/learn-more"
+                className="text-foreground/80 hover:text-foreground transition"
+                onClick={() => setIsOpen(false)}
+              >
+                Learn More
               </Link>
             </div>
           </div>
