@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { motion } from "framer-motion";
 import { Github, Twitter, Instagram } from "lucide-react";
 
@@ -8,12 +7,6 @@ const socialLinks = [
   { icon: Twitter, href: "#", label: "Twitter" },
   { icon: Instagram, href: "#", label: "Instagram" },
   { icon: Github, href: "#", label: "Github" },
-];
-
-const footerLinks = [
-  { href: "/", label: "Home" },
-  { href: "/donate", label: "Donate" },
-  { href: "/distribution", label: "Distribution" },
 ];
 
 export function Footer() {
@@ -24,21 +17,15 @@ export function Footer() {
       whileInView={{ opacity: 1 }}
       viewport={{ once: true }}
     >
-      <div className="container mx-auto px-4 py-8">
-        <div className="flex flex-col items-center space-y-6">
-          <div className="flex items-center space-x-8">
-            {footerLinks.map((link) => (
-              <Link
-                key={link.label}
-                href={link.href}
-                className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-              >
-                {link.label}
-              </Link>
-            ))}
+      <div className="container mx-auto px-4 py-3">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-2">
+          {/* Copyright */}
+          <div className="text-sm text-muted-foreground">
+            <p>&copy; {new Date().getFullYear()} DevDonations. All rights reserved.</p>
           </div>
 
-          <div className="flex items-center space-x-6">
+          {/* Social Links */}
+          <div className="flex items-center space-x-3">
             {socialLinks.map(({ icon: Icon, href, label }) => (
               <motion.a
                 key={label}
@@ -48,13 +35,9 @@ export function Footer() {
                 whileTap={{ scale: 0.95 }}
                 aria-label={label}
               >
-                <Icon className="h-5 w-5" />
+                <Icon className="h-4 w-4" />
               </motion.a>
             ))}
-          </div>
-
-          <div className="text-sm text-muted-foreground">
-            <p>&copy; {new Date().getFullYear()} DevDonations. All rights reserved.</p>
           </div>
         </div>
       </div>
