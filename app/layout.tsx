@@ -6,11 +6,15 @@ import { Footer } from '@/components/footer';
 import { ThemeProvider } from '@/components/theme/theme-provider';
 import { Toaster } from "@/components/ui/toaster";
 
-const inter = Inter({ subsets: ['latin'] });
+const inter = Inter({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-inter',
+});
 
 export const metadata: Metadata = {
-  title: 'DevDonations - Support Developers in Need',
-  description: 'Donate your gently used tech equipment to developers in need',
+  title: 'DevDonations - Give Warmth. Share Hope.',
+  description: 'Your unused clothes can change lives. Join us in spreading kindness, one donation at a time.',
 };
 
 export default function RootLayout({

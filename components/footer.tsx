@@ -1,43 +1,32 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Github, Twitter, Instagram } from "lucide-react";
-
-const socialLinks = [
-  { icon: Twitter, href: "#", label: "Twitter" },
-  { icon: Instagram, href: "#", label: "Instagram" },
-  { icon: Github, href: "#", label: "Github" },
-];
+import { Heart } from "lucide-react";
 
 export function Footer() {
   return (
-    <motion.footer 
-      className="border-t bg-background/50 backdrop-blur-sm"
+    <motion.footer
+      className="border-t border-border/50 bg-background"
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
       viewport={{ once: true }}
     >
-      <div className="container mx-auto px-4 py-3">
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-2">
-          {/* Copyright */}
-          <div className="text-sm text-muted-foreground">
-            <p>&copy; {new Date().getFullYear()} DevDonations. All rights reserved.</p>
-          </div>
+      <div className="container mx-auto px-6 py-12">
+        <div className="flex flex-col items-center justify-center gap-4 text-center">
+          <motion.div
+            className="flex items-center gap-2 text-primary"
+            whileHover={{ scale: 1.05 }}
+          >
+            <Heart className="w-5 h-5 fill-current" />
+            <span className="font-medium text-lg">DevDonations</span>
+          </motion.div>
 
-          {/* Social Links */}
-          <div className="flex items-center space-x-3">
-            {socialLinks.map(({ icon: Icon, href, label }) => (
-              <motion.a
-                key={label}
-                href={href}
-                className="text-muted-foreground hover:text-foreground transition-colors"
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.95 }}
-                aria-label={label}
-              >
-                <Icon className="h-4 w-4" />
-              </motion.a>
-            ))}
+          <p className="text-sm text-muted-foreground max-w-md leading-relaxed">
+            Spreading warmth, one piece at a time.
+          </p>
+
+          <div className="text-xs text-muted-foreground/70 mt-4">
+            &copy; {new Date().getFullYear()} DevDonations. All rights reserved.
           </div>
         </div>
       </div>

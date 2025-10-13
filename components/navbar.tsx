@@ -13,35 +13,35 @@ export function Navbar() {
 
   return (
     <>
-      <nav className="bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50 border-b">
-        <div className="container mx-auto px-4">
-          <div className="flex items-center justify-between h-16">
-            <Link href="/" className="text-xl font-bold">
+      <nav className="bg-background/80 backdrop-blur-md sticky top-0 z-50 border-b border-border/50">
+        <div className="container mx-auto px-6">
+          <div className="flex items-center justify-between h-20">
+            <Link href="/" className="text-xl font-medium tracking-tight hover:text-primary transition-colors">
               DevDonations
             </Link>
 
             {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center space-x-6">
-              <Link href="/" className="text-foreground/80 hover:text-foreground transition">
+            <div className="hidden md:flex items-center space-x-8">
+              <Link href="/" className="text-sm text-foreground/70 hover:text-foreground transition-colors">
                 Home
               </Link>
-              <Link href="/distribution" className="text-foreground/80 hover:text-foreground transition">
+              <Link href="/distribution" className="text-sm text-foreground/70 hover:text-foreground transition-colors">
                 Distribution
               </Link>
-              <Link href="/volunteer" className="text-foreground/80 hover:text-foreground transition">
+              <Link href="/volunteer" className="text-sm text-foreground/70 hover:text-foreground transition-colors">
                 Volunteer
               </Link>
-              <Link href="/learn-more" className="text-foreground/80 hover:text-foreground transition">
+              <Link href="/learn-more" className="text-sm text-foreground/70 hover:text-foreground transition-colors">
                 Learn More
               </Link>
               <ThemeToggle />
-              <Button 
-                variant="default" 
-                size="sm" 
-                className="ml-2 bg-primary hover:bg-primary/90"
+              <Button
+                variant="default"
+                size="sm"
+                className="ml-2 bg-primary hover:bg-primary/90 rounded-full px-6"
                 onClick={() => setShowDonationModal(true)}
               >
-                Donate Now
+                Donate
               </Button>
             </div>
 
