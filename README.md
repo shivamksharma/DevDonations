@@ -30,7 +30,7 @@ Experience the platform live: [https://devdonation.vercel.app/](https://devdonat
 - Recharts-powered analytics
 - Form validation with Zod & React Hook Form
 
-## 📦 Installation
+## 📦 Installation & Setup
 
 1. Clone the repository:
    ```bash
@@ -43,10 +43,46 @@ Experience the platform live: [https://devdonation.vercel.app/](https://devdonat
    npm install
    ```
 
-3. Run the development server:
+3. Set up Firebase:
+   - Create a Firebase project at [https://console.firebase.google.com/](https://console.firebase.google.com/)
+   - Enable Authentication with Email/Password and Google providers
+   - Enable Firestore Database
+   - Enable Storage (if needed for file uploads)
+   - Copy your Firebase config to `.env.local`:
+     ```
+     NEXT_PUBLIC_FIREBASE_API_KEY=your_api_key
+     NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=your_project.firebaseapp.com
+     NEXT_PUBLIC_FIREBASE_PROJECT_ID=your_project_id
+     NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=your_project.appspot.com
+     NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
+     NEXT_PUBLIC_FIREBASE_APP_ID=your_app_id
+     ```
+
+4. Deploy Firestore Security Rules:
+   - Copy the rules from `firestore.rules` to your Firebase project
+   - Update the admin email addresses in the security rules
+
+5. Run the development server:
    ```bash
    npm run dev
    ```
+
+## 🔐 Firebase Security
+
+The application uses Firebase Authentication for admin access and Firestore security rules to protect sensitive data:
+
+- **Public Access**: Donation creation, event viewing, blog posts
+- **Admin Only**: User management, sensitive operations, analytics
+- **Real-time Updates**: Live data synchronization across the application
+
+## 🏗️ Architecture
+
+- **Frontend**: Next.js 13+ with App Router
+- **Authentication**: Firebase Auth with protected routes
+- **Database**: Firestore with real-time subscriptions
+- **State Management**: Zustand + custom hooks
+- **UI Components**: ShadCN/UI with Tailwind CSS
+- **Forms**: React Hook Form with Zod validation
 
 4. Open your browser at `http://localhost:3000`.
 

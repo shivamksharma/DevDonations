@@ -1,0 +1,50 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    // Helper functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isAdmin() {
+      return isAuthenticated() && (
+        request.auth.token.email in ['admin@devdonations.org'] ||
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin'
+      );
+    }
+
+    function isValidImage() {
+      return request.resource.contentType.matches('image/.*');
+    }
+
+    function isValidSize() {
+      return request.resource.size < 5 * 1024 * 1024; // 5MB
+    }
+
+    // Blog images - only admins can write, anyone can read
+    match /blog-images/{imageId} {
+      allow read: if true;
+      allow write: if isAdmin() && isValidImage() && isValidSize();
+      allow delete: if isAdmin();
+    }
+
+    // Event images - only admins can write, anyone can read
+    match /event-images/{imageId} {
+      allow read: if true;
+      allow write: if isAdmin() && isValidImage() && isValidSize();
+      allow delete: if isAdmin();
+    }
+
+    // User profile images - users can write their own, anyone can read
+    match /profile-images/{userId}/{imageId} {
+      allow read: if true;
+      allow write: if isAuthenticated() && (request.auth.uid == userId || isAdmin()) && isValidImage() && isValidSize();
+      allow delete: if isAuthenticated() && (request.auth.uid == userId || isAdmin());
+    }
+
+    // Default: deny all other access
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}

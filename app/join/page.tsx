@@ -4,10 +4,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { motion } from "framer-motion";
 import { Heart } from "lucide-react";
 import { useForm } from "react-hook-form";
-import { VOLUNTEER_ROLES } from "@/lib/constants/volunteer-types";
-import { volunteerFormSchema, type VolunteerFormData } from "@/lib/schemas/volunteer-form-schema";
-import { RoleCard } from "@/components/volunteer/role-card";
-import { AvailabilitySection } from "@/components/volunteer/availability-section";
+import { VOLUNTEER_ROLES } from "@/shared/utils/constants/volunteer-types";
+import { volunteerFormSchema, type VolunteerFormData } from "@/shared/utils/schemas/volunteer-form-schema";
+import { RoleCard } from "@/frontend/components/volunteer/role-card";
+import { AvailabilitySection } from "@/frontend/components/volunteer/availability-section";
 import {
   Form,
   FormControl,
@@ -15,13 +15,13 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
+} from "@/shared/components/ui/form";
+import { Input } from "@/shared/components/ui/input";
+import { Button } from "@/shared/components/ui/button";
+import { Textarea } from "@/shared/components/ui/textarea";
 import { useState } from "react";
-import { toast } from "@/hooks/use-toast";
-import { addVolunteer } from '@/lib/firebase/volunteers';
+import { toast } from "@/shared/hooks/use-toast";
+import { addVolunteer } from '@/shared/lib/firebase/volunteers';
 
 export default function JoinPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);

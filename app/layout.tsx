@@ -1,10 +1,15 @@
 import './globals.css';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
-import { Navbar } from '@/components/navbar';
-import { Footer } from '@/components/footer';
-import { ThemeProvider } from '@/components/theme/theme-provider';
-import { Toaster } from "@/components/ui/toaster";
+import { Navbar } from '@/shared/components/navbar';
+import { Footer } from '@/shared/components/footer';
+import { ThemeProvider } from '@/shared/components/theme/theme-provider';
+import { SmoothScroll } from '@/shared/components/ui/smooth-scroll';
+import { Toaster } from "@/shared/components/ui/toaster";
+import { ConditionalLayout } from '@/shared/components/conditional-layout';
+import { AuthProvider } from '@/shared/lib/context/auth-context';
+import { DonateModalProvider } from '@/shared/components/donate-modal-provider';
+import { VolunteerModal } from '@/shared/components/volunteer-modal';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -31,10 +36,15 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <Navbar />
-          {children}
-          <Footer />
-          <Toaster />
+          <AuthProvider>
+            <SmoothScroll />
+            <ConditionalLayout>
+              {children}
+            </ConditionalLayout>
+            <Toaster />
+            <DonateModalProvider />
+            <VolunteerModal />
+          </AuthProvider>
         </ThemeProvider>
       </body>
     </html>

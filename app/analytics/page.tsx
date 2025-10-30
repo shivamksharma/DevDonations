@@ -2,15 +2,15 @@
 
 import { useState } from 'react';
 import { DateRange } from 'react-day-picker';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { DateRangePicker } from '@/components/date-range-picker';
-import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/shared/components/ui/card';
+import { DateRangePicker } from '@/shared/components/date-range-picker';
+import { Button } from '@/shared/components/ui/button';
 import { RefreshCw } from 'lucide-react';
-import SummaryCards from '@/components/analytics/summary-cards';
-import DonationTrends from '@/components/analytics/donation-trends';
-import CategoryComparison from '@/components/analytics/category-comparison';
-import StatusDistribution from '@/components/analytics/status-distribution';
-import DonationsTable from '@/components/analytics/donations-table';
+import SummaryCards from '@/frontend/components/analytics/summary-cards';
+import DonationTrends from '@/frontend/components/analytics/donation-trends';
+import CategoryComparison from '@/frontend/components/analytics/category-comparison';
+import StatusDistribution from '@/frontend/components/analytics/status-distribution';
+import DonationsTable from '@/frontend/components/analytics/donations-table';
 
 export default function AnalyticsDashboard() {
   const [dateRange, setDateRange] = useState<DateRange | undefined>({

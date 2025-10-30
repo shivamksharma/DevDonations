@@ -5,15 +5,14 @@ import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
-import { signIn, signInWithGoogle } from '@/lib/firebase/auth';
-import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
-import { toast } from '@/hooks/use-toast';
-import { useAuth } from '@/lib/context/auth-context';
-import { Separator } from '@/components/ui/separator';
+import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from '@/shared/components/ui/form';
+import { Input } from '@/shared/components/ui/input';
+import { Button } from '@/shared/components/ui/button';
+import { toast } from '@/shared/hooks/use-toast';
+import { useAuth } from '@/shared/lib/context/auth-context';
+import { Separator } from '@/shared/components/ui/separator';
 import { FcGoogle } from 'react-icons/fc';
-import { LoadingState } from '@/components/ui/loading-state';
+import { LoadingState } from '@/shared/components/ui/loading-state';
 
 const loginSchema = z.object({
   email: z.string().email('Invalid email address'),
@@ -25,7 +24,7 @@ type LoginFormData = z.infer<typeof loginSchema>;
 export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
-  const { user, loading, isAdmin } = useAuth();
+  const { user, loading, isAdmin, signIn, signInWithGoogle } = useAuth();
 
   const form = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
@@ -44,16 +43,11 @@ export default function LoginPage() {
   const onSubmit = async (data: LoginFormData) => {
     setIsLoading(true);
     try {
-      const { user, error } = await signIn(data.email, data.password);
-      if (error) {
-        toast.error(error);
-        return;
-      }
-      if (user) {
-        router.push('/admin');
-      }
-    } catch (error) {
-      toast.error('An error occurred during login');
+      await signIn(data.email, data.password);
+      toast.success('Login successful!');
+      router.push('/admin');
+    } catch (error: any) {
+      toast.error(error.message || 'Login failed');
     } finally {
       setIsLoading(false);
     }
@@ -62,16 +56,11 @@ export default function LoginPage() {
   const handleGoogleSignIn = async () => {
     setIsLoading(true);
     try {
-      const { user, error } = await signInWithGoogle();
-      if (error) {
-        toast.error(error);
-        return;
-      }
-      if (user) {
-        router.push('/admin');
-      }
-    } catch (error) {
-      toast.error('An error occurred during Google sign-in');
+      await signInWithGoogle();
+      toast.success('Login successful!');
+      router.push('/admin');
+    } catch (error: any) {
+      toast.error(error.message || 'An error occurred during Google sign-in');
     } finally {
       setIsLoading(false);
     }
@@ -80,7 +69,7 @@ export default function LoginPage() {
   // Show loading state only during initial auth check
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-secondary/50">
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background via-muted/20 to-background">
         <LoadingState label="Verifying authentication..." />
       </div>
     );
@@ -93,66 +82,108 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-secondary/50">
-      <div className="w-full max-w-md p-8 space-y-6 bg-card rounded-lg shadow-lg">
-        <div className="space-y-2 text-center">
-          <h1 className="text-3xl font-bold">Admin Login</h1>
-          <p className="text-muted-foreground">Sign in to access the admin dashboard</p>
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background via-muted/20 to-background p-4">
+      <div className="w-full max-w-md">
+        {/* Logo/Brand Section */}
+        <div className="text-center mb-8">
+          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-primary/10 mb-4">
+            <svg
+              className="w-8 h-8 text-primary"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+              />
+            </svg>
+          </div>
+          <h1 className="text-3xl font-bold mb-2">DevDonations</h1>
+          <p className="text-muted-foreground">Admin Dashboard</p>
         </div>
 
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Email</FormLabel>
-                  <FormControl>
-                    <Input placeholder="admin@example.com" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="password"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Password</FormLabel>
-                  <FormControl>
-                    <Input type="password" placeholder="••••••••" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <Button type="submit" className="w-full" disabled={isLoading}>
-              {isLoading ? "Signing in..." : "Sign in"}
-            </Button>
-          </form>
-        </Form>
+        {/* Login Card */}
+        <div className="bg-card border border-muted/40 rounded-2xl shadow-2xl p-8 space-y-6">
+          <div className="space-y-2 text-center">
+            <h2 className="text-2xl font-bold">Welcome back</h2>
+            <p className="text-muted-foreground">Sign in to access the admin dashboard</p>
+          </div>
 
-        <div className="relative">
-          <div className="absolute inset-0 flex items-center">
-            <Separator />
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Email</FormLabel>
+                    <FormControl>
+                      <Input 
+                        placeholder="admin@devdonations.org" 
+                        {...field}
+                        className="h-11"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Password</FormLabel>
+                    <FormControl>
+                      <Input 
+                        type="password" 
+                        placeholder="••••••••" 
+                        {...field}
+                        className="h-11"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <Button 
+                type="submit" 
+                className="w-full h-11 text-base font-medium" 
+                disabled={isLoading}
+              >
+                {isLoading ? "Signing in..." : "Sign in"}
+              </Button>
+            </form>
+          </Form>
+
+          <div className="relative">
+            <div className="absolute inset-0 flex items-center">
+              <Separator />
+            </div>
+            <div className="relative flex justify-center text-xs uppercase">
+              <span className="bg-card px-2 text-muted-foreground">Or continue with</span>
+            </div>
           </div>
-          <div className="relative flex justify-center text-xs uppercase">
-            <span className="bg-card px-2 text-muted-foreground">Or continue with</span>
-          </div>
+
+          <Button
+            variant="outline"
+            type="button"
+            className="w-full h-11 font-medium"
+            onClick={handleGoogleSignIn}
+            disabled={isLoading}
+          >
+            <FcGoogle className="mr-2 h-5 w-5" />
+            {isLoading ? "Signing in..." : "Sign in with Google"}
+          </Button>
         </div>
 
-        <Button
-          variant="outline"
-          type="button"
-          className="w-full"
-          onClick={handleGoogleSignIn}
-          disabled={isLoading}
-        >
-          <FcGoogle className="mr-2 h-4 w-4" />
-          {isLoading ? "Signing in..." : "Sign in with Google"}
-        </Button>
+        {/* Footer */}
+        <p className="text-center text-sm text-muted-foreground mt-6">
+          Protected by Firebase Authentication
+        </p>
       </div>
     </div>
   );
