@@ -91,3 +91,23 @@ export interface AnalyticsData {
     timestamp: Date;
   }>;
 }
+
+export interface ComprehensiveAnalytics {
+  totalDonations: number;
+  totalVolunteers: number;
+  totalEvents: number;
+  totalBeneficiaries: number;
+  monthlyDonations: Array<{ month: string; count: number; value: number }>;
+  donationsByCategory: Array<{ category: string; count: number; percentage: number }>;
+  eventParticipation: Array<{ event: string; participants: number }>;
+  recentActivity: Array<{
+    id: string;
+    type: 'donation' | 'volunteer' | 'event';
+    description: string;
+    timestamp: Date;
+  }>;
+  donationTrends: Array<{ month: string; donations: number; value: number }>;
+  categoryDistribution: Array<{ category: string; count: number; percentage: number }>;
+  volunteerActivity: Array<{ month: string; active: number; new: number; hours: number }>;
+  statusOverview: Array<{ name: string; value: number; color: string }>;
+}

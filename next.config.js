@@ -1,10 +1,12 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'export',
   eslint: {
     ignoreDuringBuilds: true,
   },
-  images: { unoptimized: true },
+  images: { 
+    unoptimized: true,
+    domains: ['firebasestorage.googleapis.com'],
+  },
   webpack: (config) => {
     // Add rule for handling private class fields
     config.module.rules.push({

@@ -19,10 +19,11 @@ import { CategoryDistributionChart } from '@/admin/components/analytics/category
 import { VolunteerActivityChart } from '@/admin/components/analytics/volunteer-activity-chart';
 import { StatusOverviewChart } from '@/admin/components/analytics/status-overview-chart';
 import { getComprehensiveAnalytics } from '@/services/firebase/analytics';
+import { ComprehensiveAnalytics } from '@/shared/utils/types/admin';
 
 export default function AnalyticsPage() {
   const [loading, setLoading] = useState(true);
-  const [analytics, setAnalytics] = useState<any>(null);
+  const [analytics, setAnalytics] = useState<ComprehensiveAnalytics | null>(null);
 
   useEffect(() => {
     const fetchAnalytics = async () => {
