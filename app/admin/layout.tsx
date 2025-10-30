@@ -1,5 +1,6 @@
 'use client';
 
+import { usePathname } from 'next/navigation';
 import { ProtectedAdminRoute } from '@/shared/components/auth/protected-admin-route';
 import { AppSidebar } from '@/admin/components/app-sidebar';
 import { AdminHeader } from '@/admin/components/admin-header';
@@ -10,6 +11,15 @@ interface AdminLayoutProps {
 }
 
 export default function AdminLayout({ children }: AdminLayoutProps) {
+  const pathname = usePathname();
+  const isLoginPage = pathname === '/admin/login';
+
+  // If on login page, render without protection and layout
+  if (isLoginPage) {
+    return <>{children}</>;
+  }
+
+  // For all other admin pages, apply protection and layout
   return (
     <ProtectedAdminRoute>
       <SidebarProvider>

@@ -10,8 +10,6 @@ import { Input } from '@/shared/components/ui/input';
 import { Button } from '@/shared/components/ui/button';
 import { toast } from '@/shared/hooks/use-toast';
 import { useAuth } from '@/shared/lib/context/auth-context';
-import { Separator } from '@/shared/components/ui/separator';
-import { FcGoogle } from 'react-icons/fc';
 import { LoadingState } from '@/shared/components/ui/loading-state';
 
 const loginSchema = z.object({
@@ -24,7 +22,7 @@ type LoginFormData = z.infer<typeof loginSchema>;
 export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
-  const { user, loading, isAdmin, signIn, signInWithGoogle } = useAuth();
+  const { user, loading, isAdmin, signIn } = useAuth();
 
   const form = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
@@ -48,19 +46,6 @@ export default function LoginPage() {
       router.push('/admin');
     } catch (error: any) {
       toast.error(error.message || 'Login failed');
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const handleGoogleSignIn = async () => {
-    setIsLoading(true);
-    try {
-      await signInWithGoogle();
-      toast.success('Login successful!');
-      router.push('/admin');
-    } catch (error: any) {
-      toast.error(error.message || 'An error occurred during Google sign-in');
     } finally {
       setIsLoading(false);
     }
@@ -158,26 +143,6 @@ export default function LoginPage() {
               </Button>
             </form>
           </Form>
-
-          <div className="relative">
-            <div className="absolute inset-0 flex items-center">
-              <Separator />
-            </div>
-            <div className="relative flex justify-center text-xs uppercase">
-              <span className="bg-card px-2 text-muted-foreground">Or continue with</span>
-            </div>
-          </div>
-
-          <Button
-            variant="outline"
-            type="button"
-            className="w-full h-11 font-medium"
-            onClick={handleGoogleSignIn}
-            disabled={isLoading}
-          >
-            <FcGoogle className="mr-2 h-5 w-5" />
-            {isLoading ? "Signing in..." : "Sign in with Google"}
-          </Button>
         </div>
 
         {/* Footer */}
