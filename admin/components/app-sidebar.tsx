@@ -10,6 +10,7 @@ import {
   Users,
   Package,
   FileText,
+  MapPin,
 } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
@@ -112,6 +113,12 @@ export function AppSidebar() {
       href: "/admin/events",
       icon: Calendar,
       badge: counts.upcomingEvents > 0 ? counts.upcomingEvents.toString() : null,
+    },
+    {
+      name: "Locations",
+      href: "/admin/locations",
+      icon: MapPin,
+      badge: null,
     },
     {
       name: "Blogs",

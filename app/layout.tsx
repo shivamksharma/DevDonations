@@ -5,7 +5,7 @@ import { Navbar } from '@/shared/components/navbar';
 import { Footer } from '@/shared/components/footer';
 import { ThemeProvider } from '@/shared/components/theme/theme-provider';
 import { SmoothScroll } from '@/shared/components/ui/smooth-scroll';
-import { Toaster } from "@/shared/components/ui/toaster";
+import { Toaster as SonnerToaster } from "sonner";
 import { ConditionalLayout } from '@/shared/components/conditional-layout';
 import { AuthProvider } from '@/shared/lib/context/auth-context';
 import { DonateModalProvider } from '@/shared/components/donate-modal-provider';
@@ -41,7 +41,12 @@ export default function RootLayout({
             <ConditionalLayout>
               {children}
             </ConditionalLayout>
-            <Toaster />
+            <SonnerToaster 
+              position="top-center" 
+              expand={true}
+              richColors
+              closeButton
+            />
             <DonateModalProvider />
             <VolunteerModal />
           </AuthProvider>

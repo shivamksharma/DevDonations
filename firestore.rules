@@ -49,6 +49,12 @@ service cloud.firestore {
       allow create, update, delete: if isAdmin();
     }
 
+    // Drop-off Locations collection - public read, admin write
+    match /dropoff_locations/{locationId} {
+      allow read: if true; // Public can read locations
+      allow create, update, delete: if isAdmin();
+    }
+
     // Users collection - users can read their own data, admins can read/write all
     match /users/{userId} {
       allow read: if isAuthenticated() && (request.auth.uid == userId || isAdmin());

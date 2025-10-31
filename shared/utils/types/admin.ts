@@ -75,6 +75,20 @@ export interface BlogPost {
   updatedAt: Date;
 }
 
+export interface DropoffLocation {
+  id: string;
+  name: string;
+  address: string;
+  city: string;
+  state: string;
+  pincode: string;
+  description?: string;
+  phone?: string;
+  hours?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+}
+
 export interface AnalyticsData {
   totalDonations: number;
   totalVolunteers: number;

@@ -26,7 +26,7 @@ export function CategoryAccordion({ quantities, onQuantityChange }: CategoryAcco
   };
 
   return (
-    <Accordion type="single" collapsible className="w-full">
+    <Accordion type="single" collapsible className="w-full border rounded-lg">
       {categories.map((category, index) => (
         <motion.div
           key={category}
@@ -34,16 +34,18 @@ export function CategoryAccordion({ quantities, onQuantityChange }: CategoryAcco
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: index * 0.1 }}
         >
-          <AccordionItem value={category}>
-            <AccordionTrigger className="flex items-center justify-between">
-              <span className="capitalize">{category}</span>
-              {getCategoryTotal(category) > 0 && (
-                <Badge variant="secondary" className="ml-2">
-                  {getCategoryTotal(category)} items
-                </Badge>
-              )}
+          <AccordionItem value={category} className="border-b last:border-b-0">
+            <AccordionTrigger className="px-4 hover:bg-orange-50/50 dark:hover:bg-orange-950/10 transition-colors">
+              <div className="flex items-center justify-between w-full pr-4">
+                <span className="capitalize font-semibold">{category}</span>
+                {getCategoryTotal(category) > 0 && (
+                  <Badge className="ml-2 bg-orange-500 hover:bg-orange-600 text-white">
+                    {getCategoryTotal(category)} items
+                  </Badge>
+                )}
+              </div>
             </AccordionTrigger>
-            <AccordionContent>
+            <AccordionContent className="px-4 pb-4">
               <ClothingGrid
                 items={CLOTHING_TYPES.filter(type => type.category === category)}
                 quantities={quantities}
