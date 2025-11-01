@@ -30,7 +30,7 @@ export function StepFourReview({ form, onEdit }: StepFourProps) {
       <div className="space-y-2 text-center mb-8">
         <div className="flex justify-center mb-4">
           <div className="p-4 bg-green-100 dark:bg-green-950/30 rounded-full">
-            <CheckCircle2 className="h-8 w-8 text-green-500" />
+            <CheckCircle2 className="h-8 w-8 text-green-600 dark:text-green-400" />
           </div>
         </div>
         <h2 className="text-2xl font-bold text-foreground">Review & Submit</h2>

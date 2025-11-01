@@ -203,7 +203,7 @@ export function VolunteerModal() {
                     animate={{ scale: 1 }}
                     transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
                   >
-                    <Check className="w-10 h-10 text-green-500" strokeWidth={2.5} />
+                    <Check className="w-10 h-10 text-green-600 dark:text-green-400" strokeWidth={2.5} />
                   </motion.div>
                   
                   <h2 className="text-3xl font-medium mb-4">Thank You!</h2>
