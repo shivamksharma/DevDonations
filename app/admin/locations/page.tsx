@@ -49,76 +49,73 @@ export default function LocationsPage() {
   };
 
   return (
-    <div className="flex flex-col gap-6 p-6">
+    <div className="space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight flex items-center gap-2">
-            <MapPin className="h-8 w-8 text-orange-500" />
-            Drop-off Locations
-          </h1>
-          <p className="text-muted-foreground mt-2">
+          <h1 className="text-3xl font-bold tracking-tight">Drop-off Locations</h1>
+          <p className="text-muted-foreground">
             Manage drop-off centers where donors can bring their donations
           </p>
         </div>
         <Button
           onClick={handleAddNew}
-          className="bg-orange-500 hover:bg-orange-600 text-white"
         >
           <Plus className="mr-2 h-4 w-4" />
           Add Location
         </Button>
       </div>
 
-      {/* Stats Card */}
-      <Card className="border-2">
-        <CardHeader>
-          <CardTitle className="text-lg">Overview</CardTitle>
-          <CardDescription>
-            Quick statistics about your drop-off locations
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="grid gap-4 md:grid-cols-3">
-            <div className="rounded-lg border bg-card p-4">
-              <div className="flex items-center gap-2">
-                <MapPin className="h-4 w-4 text-orange-500" />
-                <p className="text-sm font-medium text-muted-foreground">
-                  Total Locations
-                </p>
-              </div>
-              <p className="mt-2 text-3xl font-bold">{locations.length}</p>
+      {/* Stats Cards */}
+      <div className="grid gap-4 md:grid-cols-3">
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Total Locations</CardTitle>
+            <MapPin className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{locations.length}</div>
+            <p className="text-xs text-muted-foreground">
+              Active drop-off points
+            </p>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Active Cities</CardTitle>
+            <MapPin className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">
+              {new Set(locations.map((l) => l.city)).size}
             </div>
-            <div className="rounded-lg border bg-card p-4">
-              <div className="flex items-center gap-2">
-                <MapPin className="h-4 w-4 text-green-500" />
-                <p className="text-sm font-medium text-muted-foreground">
-                  Active Cities
-                </p>
-              </div>
-              <p className="mt-2 text-3xl font-bold">
-                {new Set(locations.map((l) => l.city)).size}
-              </p>
+            <p className="text-xs text-muted-foreground">
+              Cities covered
+            </p>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Active States</CardTitle>
+            <MapPin className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">
+              {new Set(locations.map((l) => l.state)).size}
             </div>
-            <div className="rounded-lg border bg-card p-4">
-              <div className="flex items-center gap-2">
-                <MapPin className="h-4 w-4 text-blue-500" />
-                <p className="text-sm font-medium text-muted-foreground">
-                  Active States
-                </p>
-              </div>
-              <p className="mt-2 text-3xl font-bold">
-                {new Set(locations.map((l) => l.state)).size}
-              </p>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
+            <p className="text-xs text-muted-foreground">
+              States with locations
+            </p>
+          </CardContent>
+        </Card>
+      </div>
 
       {/* Locations Table */}
-      <Card className="border-2">
+      <Card>
         <CardHeader>
-          <CardTitle className="text-lg">All Locations</CardTitle>
+          <CardTitle>All Locations</CardTitle>
           <CardDescription>
             View and manage all drop-off locations in your system
           </CardDescription>
