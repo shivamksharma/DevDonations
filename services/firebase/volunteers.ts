@@ -36,23 +36,23 @@ const docToVolunteer = (doc: any): Volunteer => {
     name: data.name,
     email: data.email,
     phone: data.phone,
-    status: data.status,
-    skills: data.skills || [],
+    status: data.status || 'pending',
+    skills: data.role ? [data.role] : [], // Map role to skills array
     availability: data.availability || [],
-    location: data.location,
-    experienceLevel: data.experienceLevel,
-    joinedAt: timestampToDate(data.joinedAt),
-    lastActive: timestampToDate(data.lastActive),
-    completedTasks: data.completedTasks,
-    rating: data.rating,
-    bio: data.bio,
+    location: data.location || '',
+    experienceLevel: data.experience || 'beginner',
+    joinedAt: timestampToDate(data.appliedAt) || new Date(), // Map appliedAt to joinedAt
+    lastActive: timestampToDate(data.appliedAt) || new Date(),
+    completedTasks: data.completedTasks || 0,
+    rating: data.rating || 0,
+    bio: data.motivation || data.bio,
   } as Volunteer;
 };
 
 // Get all volunteers
 export const getVolunteers = async (): Promise<Volunteer[]> => {
   try {
-    const q = query(collection(db, COLLECTION_NAME), orderBy('joinedAt', 'desc'));
+    const q = query(collection(db, COLLECTION_NAME), orderBy('appliedAt', 'desc'));
     const querySnapshot = await getDocs(q);
     return querySnapshot.docs.map(docToVolunteer);
   } catch (error) {
@@ -133,7 +133,7 @@ export const getVolunteersByStatus = async (status: VolunteerStatus): Promise<Vo
     const q = query(
       collection(db, COLLECTION_NAME),
       where('status', '==', status),
-      orderBy('joinedAt', 'desc')
+      orderBy('appliedAt', 'desc')
     );
     const querySnapshot = await getDocs(q);
     return querySnapshot.docs.map(docToVolunteer);
@@ -145,7 +145,7 @@ export const getVolunteersByStatus = async (status: VolunteerStatus): Promise<Vo
 
 // Subscribe to volunteers (real-time)
 export const subscribeToVolunteers = (callback: (volunteers: Volunteer[]) => void) => {
-  const q = query(collection(db, COLLECTION_NAME), orderBy('joinedAt', 'desc'));
+  const q = query(collection(db, COLLECTION_NAME), orderBy('appliedAt', 'desc'));
   return onSnapshot(q, (querySnapshot) => {
     const volunteers = querySnapshot.docs.map(docToVolunteer);
     callback(volunteers);
