@@ -6,21 +6,13 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import { useEventStore } from "@/shared/lib/store/events";
 import type { DistributionEvent } from "@/shared/lib/firebase/events";
-import { EventDetailModal } from "./event-detail-modal";
 
 export function DistributionEventsSection() {
   const { events, fetchEvents } = useEventStore();
-  const [selectedEvent, setSelectedEvent] = useState<DistributionEvent | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     fetchEvents();
   }, [fetchEvents]);
-
-  const handleEventClick = (event: DistributionEvent) => {
-    setSelectedEvent(event);
-    setIsModalOpen(true);
-  };
 
   const getStatusColor = (status: DistributionEvent["status"]) => {
     switch (status) {
@@ -86,7 +78,7 @@ export function DistributionEventsSection() {
               {events.map((event, index) => (
                 <motion.div
                   key={event.id}
-                  className="group cursor-pointer"
+                  className="group"
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: "-100px" }}
@@ -95,7 +87,6 @@ export function DistributionEventsSection() {
                     delay: index * 0.1,
                     ease: [0.22, 1, 0.36, 1],
                   }}
-                  onClick={() => handleEventClick(event)}
                 >
                   <motion.div
                     className="bg-card rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 h-full"
@@ -147,20 +138,6 @@ export function DistributionEventsSection() {
                       <p className="text-muted-foreground text-sm leading-relaxed line-clamp-3">
                         {event.description}
                       </p>
-
-                      <div className="mt-4 pt-4 border-t border-border/50">
-                        <span className="text-sm font-medium text-primary group-hover:gap-2 inline-flex items-center gap-1 transition-all">
-                          Learn More
-                          <svg 
-                            className="w-4 h-4 group-hover:translate-x-1 transition-transform" 
-                            fill="none" 
-                            viewBox="0 0 24 24" 
-                            stroke="currentColor"
-                          >
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                          </svg>
-                        </span>
-                      </div>
                     </div>
                   </motion.div>
                 </motion.div>
@@ -169,15 +146,6 @@ export function DistributionEventsSection() {
           )}
         </div>
       </section>
-
-      {/* Event Detail Modal */}
-      {selectedEvent && (
-        <EventDetailModal
-          event={selectedEvent}
-          isOpen={isModalOpen}
-          onClose={() => setIsModalOpen(false)}
-        />
-      )}
     </>
   );
 }
