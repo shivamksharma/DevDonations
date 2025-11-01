@@ -1,7 +1,6 @@
 "use client";
 
 import { 
-  BarChart3,
   Calendar,
   Gift,
   Home,
@@ -124,12 +123,6 @@ export function AppSidebar() {
       name: "Blogs",
       href: "/admin/blogs",
       icon: FileText,
-      badge: null,
-    },
-    {
-      name: "Analytics",
-      href: "/admin/analytics",
-      icon: BarChart3,
       badge: null,
     },
     {
