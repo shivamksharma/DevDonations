@@ -115,6 +115,16 @@ export function VolunteersTable({ data, onStatusUpdate, onDelete }: VolunteersTa
       ),
     },
     {
+      accessorKey: 'phone',
+      header: 'Phone',
+      cell: ({ row }) => (
+        <div className="flex items-center gap-2">
+          <Phone className="h-4 w-4 text-muted-foreground" />
+          <span>{row.getValue('phone')}</span>
+        </div>
+      ),
+    },
+    {
       accessorKey: 'status',
       header: 'Status',
       cell: ({ row }) => {
