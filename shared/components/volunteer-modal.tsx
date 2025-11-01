@@ -319,7 +319,7 @@ export function VolunteerModal() {
                                 <FormItem>
                                   <FormLabel>Phone Number</FormLabel>
                                   <FormControl>
-                                    <Input placeholder="+1234567890" {...field} />
+                                    <Input placeholder="9876543210" {...field} maxLength={10} />
                                   </FormControl>
                                   <FormMessage />
                                 </FormItem>
