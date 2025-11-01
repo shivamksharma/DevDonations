@@ -712,7 +712,7 @@ export default function VolunteerPage() {
         >
           <p className="text-lg text-muted-foreground">
             Have questions before joining? Reach out through our{" "}
-            <a href="/learn-more#contact" className="text-primary hover:underline font-medium">
+            <a href="/about-us#contact" className="text-primary hover:underline font-medium">
               Contact section
             </a>
             {" "}— we'd love to hear from you.
