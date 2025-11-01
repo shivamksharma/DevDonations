@@ -116,7 +116,10 @@ export function InviteVolunteerDialog({ open, onOpenChange }: InviteVolunteerDia
                 type="tel"
                 value={formData.phone}
                 onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                placeholder="+1 234 567 8900"
+                placeholder="9876543210"
+                pattern="[6-9]\d{9}"
+                maxLength={10}
+                title="Please enter a valid 10-digit Indian mobile number (starting with 6-9)"
                 required
               />
             </div>
