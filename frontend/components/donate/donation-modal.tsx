@@ -144,7 +144,7 @@ export function DonationModal({ isOpen, onClose, trigger }: DonationModalProps) 
   }
 
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
+    <Dialog open={isOpen} onOpenChange={onClose} modal={false}>
       {trigger}
       <DialogContent className="max-h-[95vh] overflow-hidden sm:max-w-4xl p-0">
         <div className="flex flex-col h-full max-h-[95vh]">
