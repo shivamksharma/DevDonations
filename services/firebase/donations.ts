@@ -33,16 +33,16 @@ const docToDonation = (doc: any): Donation => {
   const data = doc.data();
   return {
     id: doc.id,
-    donorName: data.donorName,
-    donorEmail: data.donorEmail,
-    donorPhone: data.donorPhone,
+    donorName: data.name || data.donorName || '',
+    donorEmail: data.email || data.donorEmail || '',
+    donorPhone: data.whatsappNumber || data.donorPhone || '',
     items: data.items || [],
-    totalItems: data.totalItems,
-    status: data.status,
-    createdAt: timestampToDate(data.createdAt),
-    updatedAt: timestampToDate(data.updatedAt),
-    location: data.location,
-    notes: data.notes,
+    totalItems: data.items ? data.items.reduce((sum: number, item: any) => sum + (item.quantity || 0), 0) : 0,
+    status: data.status || 'pending',
+    createdAt: timestampToDate(data.createdAt) || new Date(),
+    updatedAt: timestampToDate(data.updatedAt) || new Date(),
+    location: data.pickupType === 'pickup' ? data.address : data.dropoffLocation || '',
+    notes: data.message || data.notes,
     assignedVolunteer: data.assignedVolunteer,
   } as Donation;
 };
