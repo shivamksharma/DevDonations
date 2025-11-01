@@ -12,25 +12,30 @@ import { LoadingState } from '@/shared/components/ui/loading-state';
 import { BarChart3, Calendar, Gift, Users, Zap, TrendingUp, Activity } from "lucide-react";
 import { Badge } from "@/shared/components/ui/badge";
 import { getEvents } from '@/services/firebase/events';
-import { getCategoryDistribution } from '@/services/firebase/analytics';
+import { getComprehensiveAnalytics } from '@/services/firebase/analytics';
+import { DonationsChart } from '@/admin/components/analytics/donations-chart';
+import { CategoryDistributionChart } from '@/admin/components/analytics/category-distribution-chart';
+import { VolunteerActivityChart } from '@/admin/components/analytics/volunteer-activity-chart';
+import { StatusOverviewChart } from '@/admin/components/analytics/status-overview-chart';
+import type { ComprehensiveAnalytics } from '@/shared/utils/types/admin';
 
 
 
 export default function AdminDashboard() {
   const { user, loading, isAdmin } = useAuth();
   const [events, setEvents] = useState<any[]>([]);
-  const [categories, setCategories] = useState<any[]>([]);
+  const [analytics, setAnalytics] = useState<ComprehensiveAnalytics | null>(null);
   const [loadingData, setLoadingData] = useState(true);
 
   useEffect(() => {
     const fetchDashboardData = async () => {
       try {
-        const [eventsData, categoriesData] = await Promise.all([
+        const [eventsData, analyticsData] = await Promise.all([
           getEvents(),
-          getCategoryDistribution(),
+          getComprehensiveAnalytics(),
         ]);
         setEvents(eventsData.slice(0, 3)); // Get latest 3 events
-        setCategories(categoriesData.slice(0, 3)); // Get top 3 categories
+        setAnalytics(analyticsData);
       } catch (error) {
         console.error('Error fetching dashboard data:', error);
       } finally {
@@ -83,6 +88,14 @@ export default function AdminDashboard() {
       {/* Real-Time Stats Cards */}
       <RealTimeStats />
 
+      {/* Analytics Overview Section */}
+      {analytics && (
+        <div className="grid gap-6 md:grid-cols-2">
+          <DonationsChart data={analytics.donationTrends} />
+          <CategoryDistributionChart data={analytics.categoryDistribution} />
+        </div>
+      )}
+
       {/* Main Content Grid */}
       <div className="grid grid-cols-1 xl:grid-cols-12 gap-6">
         {/* Left Column - Main Content */}
@@ -96,7 +109,7 @@ export default function AdminDashboard() {
             </CardHeader>
             <CardContent>
               <Tabs defaultValue="donations" className="space-y-6">
-                <TabsList className="grid w-full grid-cols-4 h-12 bg-muted/50">
+                <TabsList className="grid w-full grid-cols-3 h-12 bg-muted/50">
                   <TabsTrigger 
                     value="donations" 
                     className="flex items-center gap-2 data-[state=active]:bg-background data-[state=active]:shadow-sm"
@@ -117,13 +130,6 @@ export default function AdminDashboard() {
                   >
                     <Calendar className="h-4 w-4" />
                     <span className="hidden sm:inline">Events</span>
-                  </TabsTrigger>
-                  <TabsTrigger 
-                    value="analytics" 
-                    className="flex items-center gap-2 data-[state=active]:bg-background data-[state=active]:shadow-sm"
-                  >
-                    <BarChart3 className="h-4 w-4" />
-                    <span className="hidden sm:inline">Analytics</span>
                   </TabsTrigger>
                 </TabsList>
                 
@@ -188,80 +194,6 @@ export default function AdminDashboard() {
                         </div>
                       )}
                     </div>
-                  </div>
-                </TabsContent>
-                
-                <TabsContent value="analytics" className="space-y-4 mt-6">
-                  <div className="grid gap-6 md:grid-cols-2">
-                    <Card className="border-muted/40">
-                      <CardHeader className="pb-3">
-                        <CardTitle className="text-base font-semibold">Top Donation Categories</CardTitle>
-                        <CardDescription>Most donated item types</CardDescription>
-                      </CardHeader>
-                      <CardContent className="space-y-4">
-                        {loadingData ? (
-                          <LoadingState label="Loading categories..." />
-                        ) : categories.length > 0 ? (
-                          <div className="space-y-3">
-                            {categories.map((category, index) => {
-                              const colors = ['bg-primary', 'bg-blue-500', 'bg-purple-500', 'bg-green-500', 'bg-orange-500'];
-                              return (
-                                <div key={category.name} className="space-y-2">
-                                  <div className="flex justify-between text-sm">
-                                    <span className="font-medium">{category.name}</span>
-                                    <span className="text-muted-foreground">{category.percentage.toFixed(1)}%</span>
-                                  </div>
-                                  <div className="h-2 bg-muted rounded-full overflow-hidden">
-                                    <div 
-                                      className={`h-full ${colors[index] || 'bg-primary'} rounded-full`} 
-                                      style={{ width: `${category.percentage}%` }} 
-                                    />
-                                  </div>
-                                </div>
-                              );
-                            })}
-                          </div>
-                        ) : (
-                          <div className="text-center py-8 text-muted-foreground">
-                            <BarChart3 className="h-12 w-12 mx-auto mb-2 opacity-50" />
-                            <p className="text-sm">No category data available</p>
-                          </div>
-                        )}
-                      </CardContent>
-                    </Card>
-
-                    <Card className="border-muted/40">
-                      <CardHeader className="pb-3">
-                        <CardTitle className="text-base font-semibold">Recent Activity</CardTitle>
-                        <CardDescription>Latest updates across the platform</CardDescription>
-                      </CardHeader>
-                      <CardContent className="space-y-4">
-                        {loadingData ? (
-                          <LoadingState label="Loading activity..." />
-                        ) : (
-                          <div className="space-y-3">
-                            <div className="flex items-center justify-between p-3 rounded-lg bg-green-500/10 border border-green-500/20">
-                              <span className="text-sm font-medium">Recent Donations</span>
-                              <span className="text-sm font-bold text-green-600 dark:text-green-400">
-                                {categories.reduce((sum, cat) => sum + cat.count, 0)} items
-                              </span>
-                            </div>
-                            <div className="flex items-center justify-between p-3 rounded-lg bg-blue-500/10 border border-blue-500/20">
-                              <span className="text-sm font-medium">Active Events</span>
-                              <span className="text-sm font-bold text-blue-600 dark:text-blue-400">
-                                {events.filter(e => e.status === 'ongoing' || e.status === 'upcoming').length} events
-                              </span>
-                            </div>
-                            <div className="flex items-center justify-between p-3 rounded-lg bg-purple-500/10 border border-purple-500/20">
-                              <span className="text-sm font-medium">Categories</span>
-                              <span className="text-sm font-bold text-purple-600 dark:text-purple-400">
-                                {categories.length} types
-                              </span>
-                            </div>
-                          </div>
-                        )}
-                      </CardContent>
-                    </Card>
                   </div>
                 </TabsContent>
               </Tabs>
