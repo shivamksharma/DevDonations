@@ -199,81 +199,112 @@ export function VolunteersTable({ data, onStatusUpdate, onDelete }: VolunteersTa
                   View Details
                 </Button>
               </DialogTrigger>
-              <DialogContent className="max-w-2xl">
-                <DialogHeader>
-                  <DialogTitle>Volunteer Details</DialogTitle>
-                  <DialogDescription>
-                    Complete information about {volunteer.name}
-                  </DialogDescription>
-                </DialogHeader>
-                <div className="grid gap-4">
-                  <div className="flex items-center gap-4">
-                    <Avatar className="h-16 w-16">
+              <DialogContent className="max-w-4xl p-0">
+                <div className="flex flex-col">
+                  {/* Header Section */}
+                  <div className="flex items-center gap-6 p-8 pb-6 border-b border-border/50">
+                    <Avatar className="h-20 w-20 ring-2 ring-border/20">
                       <AvatarImage src="" alt={volunteer.name} />
-                      <AvatarFallback className="text-lg">
+                      <AvatarFallback className="text-xl font-semibold bg-muted">
                         {volunteer.name.split(' ').map(n => n[0]).join('')}
                       </AvatarFallback>
                     </Avatar>
-                    <div>
-                      <h3 className="text-lg font-semibold">{volunteer.name}</h3>
-                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                        <Mail className="h-4 w-4" />
-                        {volunteer.email}
+                    <div className="flex-1 min-w-0">
+                      <h1 className="text-2xl font-bold tracking-tight">{volunteer.name}</h1>
+                      <div className="flex items-center gap-4 mt-2 text-sm text-muted-foreground">
+                        <div className="flex items-center gap-1.5">
+                          <Mail className="h-4 w-4" />
+                          {volunteer.email}
+                        </div>
+                        <div className="flex items-center gap-1.5">
+                          <Phone className="h-4 w-4" />
+                          {volunteer.phone}
+                        </div>
                       </div>
-                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                        <Phone className="h-4 w-4" />
-                        {volunteer.phone}
-                      </div>
-                    </div>
-                  </div>
-                  
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <h4 className="font-medium mb-2">Skills</h4>
-                      <div className="flex flex-wrap gap-1">
-                        {volunteer.skills.map(skill => (
-                          <Badge key={skill} variant="secondary" className="text-xs">
-                            {skill}
-                          </Badge>
-                        ))}
-                      </div>
-                    </div>
-                    
-                    <div>
-                      <h4 className="font-medium mb-2">Availability</h4>
-                      <div className="flex flex-wrap gap-1">
-                        {volunteer.availability.map(time => (
-                          <Badge key={time} variant="outline" className="text-xs">
-                            {time}
-                          </Badge>
-                        ))}
+                      <div className="flex items-center gap-3 mt-3">
+                        <Badge variant="secondary" className="text-xs px-2 py-1">
+                          {volunteer.status.charAt(0).toUpperCase() + volunteer.status.slice(1)}
+                        </Badge>
+                        <span className="text-xs text-muted-foreground">
+                          Joined {format(new Date(volunteer.joinedAt), 'MMM dd, yyyy')}
+                        </span>
                       </div>
                     </div>
                   </div>
-                  
-                  {volunteer.bio && (
-                    <div>
-                      <h4 className="font-medium mb-2">Bio</h4>
-                      <p className="text-sm text-muted-foreground">{volunteer.bio}</p>
-                    </div>
-                  )}
-                  
-                  <div className="grid grid-cols-3 gap-4 pt-4 border-t">
-                    <div className="text-center">
-                      <div className="text-2xl font-bold">{volunteer.completedTasks}</div>
-                      <div className="text-xs text-muted-foreground">Tasks Completed</div>
-                    </div>
-                    <div className="text-center">
-                      <div className="text-2xl font-bold flex items-center justify-center gap-1">
-                        <Star className="h-5 w-5 fill-yellow-400 text-yellow-400" />
-                        {volunteer.rating || 'N/A'}
+
+                  {/* Content Grid */}
+                  <div className="p-8 space-y-8">
+                    {/* Key Metrics */}
+                    <div className="grid grid-cols-3 gap-8">
+                      <div className="text-center">
+                        <div className="text-3xl font-bold text-foreground">{volunteer.completedTasks}</div>
+                        <div className="text-sm text-muted-foreground mt-1">Tasks Completed</div>
                       </div>
-                      <div className="text-xs text-muted-foreground">Rating</div>
+                      <div className="text-center">
+                        <div className="text-3xl font-bold text-foreground flex items-center justify-center gap-1">
+                          <Star className="h-6 w-6 fill-yellow-400 text-yellow-400" />
+                          {volunteer.rating || '—'}
+                        </div>
+                        <div className="text-sm text-muted-foreground mt-1">Rating</div>
+                      </div>
+                      <div className="text-center">
+                        <div className="text-3xl font-bold text-foreground">{volunteer.location || '—'}</div>
+                        <div className="text-sm text-muted-foreground mt-1">Location</div>
+                      </div>
                     </div>
-                    <div className="text-center">
-                      <div className="text-2xl font-bold">{volunteer.location}</div>
-                      <div className="text-xs text-muted-foreground">Location</div>
+
+                    {/* Details Grid */}
+                    <div className="grid grid-cols-2 gap-8">
+                      {/* Skills */}
+                      <div className="space-y-3">
+                        <h3 className="text-sm font-semibold text-foreground uppercase tracking-wider">Skills</h3>
+                        <div className="flex flex-wrap gap-2">
+                          {volunteer.skills.length > 0 ? (
+                            volunteer.skills.map(skill => (
+                              <Badge key={skill} variant="outline" className="text-xs px-3 py-1 border-border/50">
+                                {skill}
+                              </Badge>
+                            ))
+                          ) : (
+                            <span className="text-sm text-muted-foreground">No skills specified</span>
+                          )}
+                        </div>
+                      </div>
+
+                      {/* Availability */}
+                      <div className="space-y-3">
+                        <h3 className="text-sm font-semibold text-foreground uppercase tracking-wider">Availability</h3>
+                        <div className="flex flex-wrap gap-2">
+                          {volunteer.availability.length > 0 ? (
+                            volunteer.availability.map(time => (
+                              <Badge key={time} variant="outline" className="text-xs px-3 py-1 border-border/50">
+                                {time}
+                              </Badge>
+                            ))
+                          ) : (
+                            <span className="text-sm text-muted-foreground">No availability specified</span>
+                          )}
+                        </div>
+                      </div>
                     </div>
+
+                    {/* Experience Level */}
+                    <div className="space-y-3">
+                      <h3 className="text-sm font-semibold text-foreground uppercase tracking-wider">Experience Level</h3>
+                      <Badge variant="secondary" className="text-sm px-4 py-2 w-fit">
+                        {volunteer.experienceLevel.charAt(0).toUpperCase() + volunteer.experienceLevel.slice(1)}
+                      </Badge>
+                    </div>
+
+                    {/* Bio */}
+                    {volunteer.bio && (
+                      <div className="space-y-3">
+                        <h3 className="text-sm font-semibold text-foreground uppercase tracking-wider">About</h3>
+                        <p className="text-sm text-muted-foreground leading-relaxed max-w-none">
+                          {volunteer.bio}
+                        </p>
+                      </div>
+                    )}
                   </div>
                 </div>
               </DialogContent>
