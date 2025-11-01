@@ -95,10 +95,10 @@ export function DonationsTable({ data, onStatusUpdate, onDelete }: DonationsTabl
       ),
     },
     {
-      accessorKey: 'donorEmail',
-      header: 'Email',
+      accessorKey: 'donorPhone',
+      header: 'Phone',
       cell: ({ row }) => (
-        <div className="text-muted-foreground">{row.getValue('donorEmail')}</div>
+        <div className="text-muted-foreground">{row.getValue('donorPhone')}</div>
       ),
     },
     {
