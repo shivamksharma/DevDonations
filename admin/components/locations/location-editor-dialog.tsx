@@ -256,9 +256,10 @@ export function LocationEditorDialog({
                     </FormLabel>
                     <FormControl>
                       <Input
-                        placeholder="+91 1234567890"
+                        placeholder="9876543210"
                         {...field}
                         className="border-2 focus:border-orange-500"
+                        maxLength={10}
                       />
                     </FormControl>
                     <FormDescription className="text-xs">
