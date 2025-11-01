@@ -66,9 +66,10 @@ export function StepOneUserInfo({ form }: StepOneProps) {
               <div className="relative">
                 <Phone className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                 <Input 
-                  placeholder="+91 98765 43210" 
+                  placeholder="9876543210" 
                   {...field} 
                   className="pl-10 h-12 text-base border-2 focus:border-orange-500 focus-visible:ring-orange-500"
+                  maxLength={10}
                 />
               </div>
             </FormControl>
