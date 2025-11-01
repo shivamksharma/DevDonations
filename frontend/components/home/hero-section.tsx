@@ -72,7 +72,7 @@ export function HeroSection() {
             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
           </button>
           <Link
-            href="/learn-more"
+            href="/about-us"
             className="bg-white/10 backdrop-blur-sm hover:bg-white/20 text-white border border-white/30 px-10 py-4 rounded-full text-base font-medium inline-flex items-center gap-2 transition-all hover:scale-105"
           >
             Learn How It Works
