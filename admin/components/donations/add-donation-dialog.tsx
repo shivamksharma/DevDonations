@@ -126,7 +126,10 @@ export function AddDonationDialog({ open, onOpenChange }: AddDonationDialogProps
                 type="tel"
                 value={formData.donorPhone}
                 onChange={(e) => setFormData({ ...formData, donorPhone: e.target.value })}
-                placeholder="+1 234 567 8900"
+                placeholder="9876543210"
+                pattern="[6-9]\d{9}"
+                maxLength={10}
+                title="Please enter a valid 10-digit Indian mobile number (starting with 6-9)"
                 required
               />
             </div>
