@@ -51,6 +51,7 @@ interface CreateEventDialogProps {
 
 export function CreateEventDialog({ open, onOpenChange }: CreateEventDialogProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [datePickerOpen, setDatePickerOpen] = useState(false);
   const createEvent = useEventStore((state) => state.createEvent);
 
   const form = useForm<EventFormData>({
@@ -92,7 +93,7 @@ export function CreateEventDialog({ open, onOpenChange }: CreateEventDialogProps
   };
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
+    <Dialog open={open} onOpenChange={onOpenChange} modal={false}>
       <DialogContent className="sm:max-w-[600px]">
         <DialogHeader>
           <DialogTitle>Create New Event</DialogTitle>
@@ -134,7 +135,7 @@ export function CreateEventDialog({ open, onOpenChange }: CreateEventDialogProps
               render={({ field }) => (
                 <FormItem className="flex flex-col">
                   <FormLabel>Date</FormLabel>
-                  <Popover>
+                  <Popover open={datePickerOpen} onOpenChange={setDatePickerOpen}>
                     <PopoverTrigger asChild>
                       <FormControl>
                         <Button
@@ -153,11 +154,14 @@ export function CreateEventDialog({ open, onOpenChange }: CreateEventDialogProps
                         </Button>
                       </FormControl>
                     </PopoverTrigger>
-                    <PopoverContent className="w-auto p-0" align="start">
+                    <PopoverContent className="w-auto p-0 z-[60]" align="start">
                       <Calendar
                         mode="single"
                         selected={field.value}
-                        onSelect={field.onChange}
+                        onSelect={(date) => {
+                          field.onChange(date);
+                          setDatePickerOpen(false);
+                        }}
                         disabled={(date) =>
                           date < new Date(new Date().setHours(0, 0, 0, 0))
                         }
