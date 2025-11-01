@@ -170,7 +170,7 @@ export function StepTwoDonationMethod({ form }: StepTwoProps) {
                               </Button>
                             </FormControl>
                           </PopoverTrigger>
-                          <PopoverContent className="w-auto p-0" align="start">
+                        <PopoverContent className="w-auto p-0" align="start">
                             <CalendarComponent
                               mode="single"
                               selected={field.value ? new Date(field.value) : undefined}
@@ -184,10 +184,8 @@ export function StepTwoDonationMethod({ form }: StepTwoProps) {
                                 today.setHours(0, 0, 0, 0);
                                 const checkDate = new Date(date);
                                 checkDate.setHours(0, 0, 0, 0);
-                                return checkDate < today;
+                                return checkDate < today || checkDate > new Date(today.getTime() + 30 * 24 * 60 * 60 * 1000);
                               }}
-                              fromDate={new Date()}
-                              toDate={new Date(new Date().setDate(new Date().getDate() + 30))}
                               initialFocus
                             />
                           </PopoverContent>
