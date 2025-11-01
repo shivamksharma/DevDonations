@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react';
 import { RealTimeStats } from '@/admin/components/dashboard/real-time-stats';
 import { DonationsTable } from '@/admin/components/dashboard/donations-table';
 import { VolunteersTable } from '@/admin/components/dashboard/volunteers-table';
-import { QuickActions } from '@/admin/components/quick-actions';
 import { NotificationCenter } from '@/admin/components/notification-center';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/shared/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/shared/components/ui/card";
@@ -272,9 +271,6 @@ export default function AdminDashboard() {
 
         {/* Right Column - Sidebar Content */}
         <div className="xl:col-span-4 space-y-6">
-          {/* Quick Actions */}
-          <QuickActions />
-
           {/* Notifications */}
           <NotificationCenter />
 
