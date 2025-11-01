@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Search, Edit, Trash2, Eye } from "lucide-react";
+import { Search, Trash2 } from "lucide-react";
 import { Input } from "@/shared/components/ui/input";
 import { Button } from "@/shared/components/ui/button";
 import {
@@ -40,7 +40,6 @@ export function EventsTable({ events, loading = false }: EventsTableProps) {
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState<'all' | DistributionEvent['status']>('all');
   const [eventToDelete, setEventToDelete] = useState<string | null>(null);
-  const [viewingEvent, setViewingEvent] = useState<DistributionEvent | null>(null);
   const deleteEvent = useEventStore((state) => state.deleteEvent);
 
   const handleDelete = async (id: string) => {
@@ -148,13 +147,6 @@ export function EventsTable({ events, loading = false }: EventsTableProps) {
                         <Button
                           variant="ghost"
                           size="icon"
-                          onClick={() => setViewingEvent(event)}
-                        >
-                          <Eye className="h-4 w-4" />
-                        </Button>
-                        <Button
-                          variant="ghost"
-                          size="icon"
                           onClick={() => setEventToDelete(event.id)}
                         >
                           <Trash2 className="h-4 w-4" />
@@ -168,55 +160,6 @@ export function EventsTable({ events, loading = false }: EventsTableProps) {
           </div>
         )}
       </div>
-
-      <Dialog open={!!viewingEvent} onOpenChange={() => setViewingEvent(null)}>
-        <DialogContent className="max-w-md sm:max-w-2xl">
-          <DialogHeader>
-            <DialogTitle>Event Details</DialogTitle>
-          </DialogHeader>
-          {viewingEvent && (
-            <div className="grid gap-4 py-4">
-              {viewingEvent.imageUrl && (
-                <div className="relative aspect-video overflow-hidden rounded-lg">
-                  <img
-                    src={viewingEvent.imageUrl}
-                    alt={viewingEvent.title}
-                    className="object-cover w-full h-full"
-                  />
-                </div>
-              )}
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <p className="text-sm text-muted-foreground">Title</p>
-                  <p className="font-medium">{viewingEvent.title}</p>
-                </div>
-                <div>
-                  <p className="text-sm text-muted-foreground">Location</p>
-                  <p className="font-medium">{viewingEvent.location}</p>
-                </div>
-                <div>
-                  <p className="text-sm text-muted-foreground">Date</p>
-                  <p className="font-medium">
-                    {new Date(viewingEvent.date).toLocaleDateString()}
-                  </p>
-                </div>
-                <div>
-                  <p className="text-sm text-muted-foreground">Status</p>
-                  <Badge variant={getStatusBadgeVariant(viewingEvent.status)}>
-                    {viewingEvent.status}
-                  </Badge>
-                </div>
-              </div>
-              <div>
-                <p className="text-sm text-muted-foreground">Description</p>
-                <p className="font-medium whitespace-pre-wrap">
-                  {viewingEvent.description}
-                </p>
-              </div>
-            </div>
-          )}
-        </DialogContent>
-      </Dialog>
 
       <Dialog open={!!eventToDelete} onOpenChange={() => setEventToDelete(null)}>
         <DialogContent>
