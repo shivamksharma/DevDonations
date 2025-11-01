@@ -11,8 +11,8 @@ export const locationFormSchema = z.object({
     .max(6, "Pincode must be 6 digits"),
   description: z.string().optional(),
   phone: z.string()
-    .regex(/^\+?[1-9]\d{1,14}$/, "Please enter a valid phone number")
-    .min(10, "Phone number must be at least 10 digits")
+    .regex(/^[6-9]\d{9}$/, "Please enter a valid 10-digit Indian mobile number (starting with 6-9)")
+    .length(10, "Phone number must be exactly 10 digits")
     .optional()
     .or(z.literal("")),
   hours: z.string()
