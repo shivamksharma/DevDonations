@@ -10,8 +10,8 @@ import { usePathname } from "next/navigation";
 
 const navigationLinks = [
   { href: "/", label: "Home" },
-  { href: "/learn-more", label: "About" },
-  { href: "/#stories", label: "Stories", scroll: true },
+  { href: "/about-us", label: "About" },
+  { href: "/stories", label: "Stories" },
   { href: "/volunteer", label: "Volunteer" },
   { href: "/#contact", label: "Contact", scroll: true },
 ];
