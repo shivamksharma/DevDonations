@@ -1,7 +1,7 @@
 "use client";
 
-import { motion, AnimatePresence } from "framer-motion";
-import { Calendar, MapPin, Search, X, ArrowRight } from "lucide-react";
+import { motion } from "framer-motion";
+import { Calendar, MapPin, Search } from "lucide-react";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import { Input } from "@/shared/components/ui/input";
@@ -12,7 +12,6 @@ import type { DistributionEvent } from "@/shared/lib/firebase/events";
 
 export function DistributionSection() {
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedEvent, setSelectedEvent] = useState<DistributionEvent | null>(null);
   const { events, fetchEvents } = useEventStore();
   const [error, setError] = useState<string | null>(null);
 
@@ -131,8 +130,7 @@ export function DistributionSection() {
                     delay: index * 0.1,
                     ease: [0.22, 1, 0.36, 1] 
                   }}
-                  className="group cursor-pointer"
-                  onClick={() => setSelectedEvent(event)}
+                  className="group"
                 >
                   <motion.div
                     className="bg-card rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-shadow duration-500 h-full flex flex-col"
@@ -176,10 +174,6 @@ export function DistributionSection() {
                       <p className="text-muted-foreground leading-relaxed mb-4 flex-1 line-clamp-2">
                         {event.description}
                       </p>
-                      <div className="flex items-center gap-2 text-primary font-medium group-hover:gap-3 transition-all">
-                        Learn More
-                        <ArrowRight className="w-4 h-4" />
-                      </div>
                     </div>
                   </motion.div>
                 </motion.div>
@@ -188,101 +182,6 @@ export function DistributionSection() {
           )}
         </div>
       </section>
-
-      {/* Event Detail Modal */}
-      <AnimatePresence>
-        {selectedEvent && (
-          <>
-            {/* Backdrop */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.3 }}
-              className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50"
-              onClick={() => setSelectedEvent(null)}
-            />
-            
-            {/* Modal */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95, y: 20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              transition={{ type: "spring", stiffness: 300, damping: 30 }}
-              className="fixed inset-4 md:inset-auto md:left-1/2 md:top-1/2 md:-translate-x-1/2 md:-translate-y-1/2 md:w-full md:max-w-2xl bg-background rounded-3xl shadow-2xl z-50 overflow-hidden"
-            >
-              <div className="relative max-h-[90vh] overflow-y-auto">
-                {/* Close Button */}
-                <button
-                  onClick={() => setSelectedEvent(null)}
-                  className="absolute top-4 right-4 z-10 p-2 rounded-full bg-background/80 backdrop-blur-sm hover:bg-background transition-colors"
-                >
-                  <X className="w-5 h-5" />
-                </button>
-
-                {/* Image */}
-                {selectedEvent.imageUrl && (
-                  <div className="relative h-64 md:h-80 overflow-hidden">
-                    <Image
-                      src={selectedEvent.imageUrl}
-                      alt={selectedEvent.title}
-                      fill
-                      className="object-cover"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                    <div className="absolute bottom-6 left-6">
-                      <span className={`px-4 py-2 rounded-full text-sm font-medium ${getStatusColor(selectedEvent.status)}`}>
-                        {selectedEvent.status.charAt(0).toUpperCase() + selectedEvent.status.slice(1)}
-                      </span>
-                    </div>
-                  </div>
-                )}
-
-                {/* Content */}
-                <div className="p-8">
-                  <h2 className="text-3xl font-semibold mb-4 text-foreground">
-                    {selectedEvent.title}
-                  </h2>
-                  
-                  <div className="flex flex-col gap-3 mb-6">
-                    <div className="flex items-center text-muted-foreground">
-                      <MapPin className="h-5 w-5 mr-3 flex-shrink-0 text-primary" />
-                      <span className="text-base">{selectedEvent.location}</span>
-                    </div>
-                    <div className="flex items-center text-muted-foreground">
-                      <Calendar className="h-5 w-5 mr-3 flex-shrink-0 text-primary" />
-                      <span className="text-base">
-                        {new Date(selectedEvent.date).toLocaleDateString('en-US', { 
-                          weekday: 'long',
-                          year: 'numeric', 
-                          month: 'long', 
-                          day: 'numeric' 
-                        })}
-                      </span>
-                    </div>
-                  </div>
-
-                  <div className="prose prose-neutral dark:prose-invert max-w-none">
-                    <p className="text-muted-foreground leading-relaxed">
-                      {selectedEvent.description}
-                    </p>
-                  </div>
-
-                  <div className="mt-8 pt-6 border-t border-border/50">
-                    <p className="text-sm text-muted-foreground">
-                      Event created on {new Date(selectedEvent.createdAt).toLocaleDateString('en-US', { 
-                        year: 'numeric', 
-                        month: 'long', 
-                        day: 'numeric' 
-                      })}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-          </>
-        )}
-      </AnimatePresence>
     </>
   );
 }
