@@ -13,7 +13,7 @@ const navigationLinks = [
   { href: "/about-us", label: "About" },
   { href: "/stories", label: "Stories" },
   { href: "/volunteer", label: "Volunteer" },
-  { href: "/#contact", label: "Contact", scroll: true },
+  { href: "/contact", label: "Contact" },
 ];
 
 export function Navbar() {
@@ -104,7 +104,7 @@ export function Navbar() {
                 >
                   <Link
                     href={link.href}
-                    onClick={(e) => handleLinkClick(e, link.href, link.scroll)}
+                    onClick={(e) => handleLinkClick(e, link.href)}
                     className={`relative px-4 py-2 text-sm font-medium transition-all duration-200 group ${
                       scrolled
                         ? isActiveLink(link.href)
@@ -235,7 +235,7 @@ export function Navbar() {
                       >
                         <Link
                           href={link.href}
-                          onClick={(e) => handleLinkClick(e, link.href, link.scroll)}
+                          onClick={(e) => handleLinkClick(e, link.href)}
                           className={`flex items-center px-4 py-3.5 text-base font-medium rounded-xl transition-all duration-200 ${
                             isActiveLink(link.href)
                               ? "bg-primary/10 text-primary"
